@@ -16,7 +16,7 @@ spring:
   #配置 Jpa
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     open-in-view: true
     properties:
       hibernate:
