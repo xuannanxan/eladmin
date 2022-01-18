@@ -1,6 +1,6 @@
 package com.eladmin.json;
 
-import com.base.core.tools.DateTools;
+import com.eladmin.tools.DateTools;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

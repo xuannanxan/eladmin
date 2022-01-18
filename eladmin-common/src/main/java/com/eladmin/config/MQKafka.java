@@ -1,7 +1,7 @@
 package com.eladmin.config;
 
-import com.base.core.annotation.FieldDescribe;
-import com.base.core.json.JsonPropertyObject;
+import com.eladmin.annotation.FieldDescribe;
+import com.eladmin.json.JsonPropertyObject;
 import org.apache.commons.lang3.StringUtils;
 
 public class MQKafka extends JsonPropertyObject {

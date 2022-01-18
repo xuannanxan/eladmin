@@ -1,6 +1,6 @@
 package com.eladmin.json;
 
-import com.base.core.tools.DateTools;
+import com.eladmin.tools.DateTools;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
