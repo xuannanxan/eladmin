@@ -1,11 +1,10 @@
-package com.eladmin.config;
+package com.eladmin.jsonconfig;
 
 
 import com.eladmin.annotation.FieldDescribe;
-import com.eladmin.json.JsonPropertyObject;
 import org.apache.commons.lang3.BooleanUtils;
 
-public class Server extends JsonPropertyObject {
+public class Server {
 
     public static final String DEFAULT_PROJECTNAME = "MC";
     public static final String DEFAULT_PROJECTDESCRIPTION = "基础平台";
@@ -29,8 +28,6 @@ public class Server extends JsonPropertyObject {
         this.docEnable = DEFAULT_DOCENABLE;
         this.docName = DEFAULT_DOCNAME;
         this.docDescription = DEFAULT_DOCDESCRIPTION;
-
-
     }
 
     @FieldDescribe("项目名称")
@@ -69,6 +66,8 @@ public class Server extends JsonPropertyObject {
     }
 
     public String getHost() { return this.host; }
+
+    public void  setHost(String host) {  this.host = host; }
 
     public Integer getPort() {return this.port;}
 

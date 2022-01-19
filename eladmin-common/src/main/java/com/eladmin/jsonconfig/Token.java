@@ -1,13 +1,12 @@
-package com.eladmin.config;
+package com.eladmin.jsonconfig;
 
 import com.eladmin.annotation.FieldDescribe;
-import com.eladmin.json.JsonPropertyObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
-public class Token extends JsonPropertyObject {
+public class Token  {
 
     private static final String surfix = "o2platform";
 
@@ -185,7 +184,7 @@ public class Token extends JsonPropertyObject {
     }
 
 
-    public class InitialManager extends JsonPropertyObject {
+    public class InitialManager  {
         private String name;
         private String unique;
         private String id;
@@ -334,7 +333,7 @@ public class Token extends JsonPropertyObject {
         return null;
     }
 
-    public static class Oauth extends JsonPropertyObject {
+    public static class Oauth  {
 
         public static Oauth defaultInstance() {
             Oauth o = new Oauth();
@@ -408,7 +407,7 @@ public class Token extends JsonPropertyObject {
 
     }
 
-    public static class OauthClient extends JsonPropertyObject {
+    public static class OauthClient  {
 
         public static OauthClient defaultInstance() {
             OauthClient o = new OauthClient();
@@ -656,7 +655,7 @@ public class Token extends JsonPropertyObject {
 
     }
 
-    public static class Sso extends JsonPropertyObject {
+    public static class Sso  {
 
         public static Sso defaultInstance() {
             Sso o = new Sso();
@@ -696,7 +695,7 @@ public class Token extends JsonPropertyObject {
 
     }
 
-    public static class LdapAuth extends JsonPropertyObject {
+    public static class LdapAuth  {
 
         public static LdapAuth defaultInstance() {
             LdapAuth o = new LdapAuth();

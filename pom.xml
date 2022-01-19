@@ -34,7 +34,7 @@
         <java.version>1.8</java.version>
         <log4jdbc.version>1.16</log4jdbc.version>
         <swagger.version>2.9.2</swagger.version>
-        <fastjson.version>1.2.70</fastjson.version>
+        <fastjson.version>1.2.76</fastjson.version>
         <druid.version>1.1.24</druid.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -225,12 +225,7 @@
             <artifactId>quartz</artifactId>
             <version>2.3.2</version>
         </dependency>
-        <!-- 解析json文件-->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
-        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

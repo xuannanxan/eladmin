@@ -1,12 +1,11 @@
-package com.eladmin.config;
+package com.eladmin.jsonconfig;
 
-import com.eladmin.json.*;
-import com.eladmin.tools.BaseTools;
-import com.google.gson.JsonObject;
+import com.alibaba.fastjson.JSON;
+import com.eladmin.tools.ConfigTools;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-
+import com.alibaba.fastjson.JSONObject;
 import javax.naming.InitialContext;
 import java.io.File;
 import java.nio.file.Path;
@@ -21,7 +20,7 @@ public class Config {
     public Config() {
     }
 
-
+    public static final String  PATH_CONFIG_DATASOURCES = "config/DataSources.json";
     public static final String PATH_CONFIG_SERVER = "config/server.json";
     public static final String PATH_VERSION = "version.txt";
     public static final String PATH_CONFIG_TOKEN = "config/token.json";
@@ -57,17 +56,26 @@ public class Config {
         return INSTANCE;
     }
 
+
+    private DataSources dataSources;
+
+    public static synchronized DataSources dataSources() throws Exception {
+        if (null == instance().dataSources) {
+            DataSources obj = ConfigTools.readConfigObject(PATH_CONFIG_DATASOURCES, DataSources.class);
+            if (null == obj) {
+                obj = DataSources.defaultInstance();
+            }
+            instance().dataSources = obj;
+        }
+        return instance().dataSources;
+    }
+
     private String version;
 
     public static synchronized String version() throws Exception {
         if (null == instance().version) {
-            String text = BaseTools.readString(PATH_VERSION);
-            if (JsonBuilder.isJsonObject(text)) {
-                JsonObject obj = JsonBuilder.instance().fromJson(text, JsonObject.class);
-                instance().version = obj.get("version").getAsString();
-            } else {
-                instance().version = text;
-            }
+            String text = ConfigTools.readString(PATH_VERSION);
+            instance().version = text;
         }
         return instance().version;
     }
@@ -78,7 +86,7 @@ public class Config {
 
     public static synchronized String base() throws Exception {
         if (null == instance().base) {
-            instance().base = BaseTools.getBasePath();
+            instance().base = ConfigTools.getBasePath();
         }
         return instance().base;
     }
@@ -88,7 +96,7 @@ public class Config {
 
     public static synchronized Token token() throws Exception {
         if (null == instance().token) {
-            Token o = BaseTools.readConfigObject(PATH_CONFIG_TOKEN, Token.class);
+            Token o = ConfigTools.readConfigObject(PATH_CONFIG_TOKEN, Token.class);
             if (null == o) {
                 o = Token.defaultInstance();
             }
@@ -126,24 +134,13 @@ public class Config {
     }
 
 
-    private Person person = null;
 
-    public static synchronized Person person() throws Exception {
-        if (null == instance().person) {
-            Person obj = BaseTools.readConfigObject(PATH_CONFIG_PERSON, Person.class);
-            if (null == obj) {
-                obj = Person.defaultInstance();
-            }
-            instance().person = obj;
-        }
-        return instance().person;
-    }
 
     private Server server;
 
     public static synchronized Server server() throws Exception {
         if (null == instance().server) {
-            Server obj = BaseTools.readConfigObject(PATH_CONFIG_SERVER, Server.class);
+            Server obj = ConfigTools.readConfigObject(PATH_CONFIG_SERVER, Server.class);
             if (null == obj) {
                 obj = Server.defaultInstance();
             }
@@ -152,19 +149,6 @@ public class Config {
         return instance().server;
     }
 
-
-    private MQ mq;
-
-    public static synchronized MQ mq() throws Exception {
-        if (null == instance().mq) {
-            MQ obj = BaseTools.readConfigObject(PATH_CONFIG_MQ, MQ.class);
-            if (null == obj) {
-                obj = MQ.defaultInstance();
-            }
-            instance().mq = obj;
-        }
-        return instance().mq;
-    }
 
 
 
@@ -181,40 +165,16 @@ public class Config {
 
 
 
-    public Cache cache;
-
-    public static synchronized Cache cache() throws Exception {
-        if (null == instance().cache) {
-            Cache obj = BaseTools.readConfigObject(PATH_CONFIG_CACHE, Cache.class);
-            if (null == obj) {
-                obj = Cache.defaultInstance();
-            }
-            instance().cache = obj;
-        }
-        return instance().cache;
-    }
-
-    public Email email;
-
-    public static synchronized Email email() throws Exception {
-        if (null == instance().email) {
-            Email obj = BaseTools.readConfigObject(PATH_CONFIG_EMAIL, Email.class);
-            if (null == obj) {
-                obj = Email.defaultInstance();
-            }
-            instance().email = obj;
-        }
-        return instance().email;
-    }
 
 
-    public JsonObject web;
 
-    public static synchronized JsonObject web() throws Exception {
+    public JSONObject web;
+
+    public static synchronized JSONObject web() throws Exception {
         if (null == instance().web) {
-            JsonObject obj = BaseTools.readConfigObject(PATH_CONFIG_WEB, JsonObject.class);
+            JSONObject obj = ConfigTools.readConfigObject(PATH_CONFIG_WEB, JSONObject.class);
             if (null == obj) {
-                obj = new JsonObject();
+                obj = new JSONObject();
             }
             instance().web = obj;
         }
@@ -223,14 +183,14 @@ public class Config {
 
 
 
-    public Map<String, JsonObject> customConfig = new HashMap<>();
+    public Map<String, JSONObject> customConfig = new HashMap<>();
 
-    public static synchronized JsonObject customConfig(String configName) throws Exception {
+    public static synchronized JSONObject customConfig(String configName) throws Exception {
         if (StringUtils.isBlank(configName)) {
             return null;
         } else {
             if (instance().customConfig.get(configName) == null) {
-                JsonObject obj = BaseTools.readConfigObject(DIR_CONFIG + "/" + configName + ".json", JsonObject.class);
+                JSONObject obj = ConfigTools.readConfigObject(DIR_CONFIG + "/" + configName + ".json", JSONObject.class);
                 if (obj != null) {
                     instance().customConfig.put(configName, obj);
                 }
