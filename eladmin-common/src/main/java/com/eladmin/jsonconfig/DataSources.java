@@ -14,11 +14,14 @@ public class DataSources {
     public static final Integer DEFAULT_INITSIZE = 5;
     public static final Integer DEFAULT_MINIDLE = 15;
     public static final Integer DEFAULT_MAXACT = 30;
-    public static final Integer DEFAULT_TIMEOUT = 180;
     public static final Integer DEFAULT_MAXWAIT = 3000;
-    public static final Boolean DEFAULT_WEBSTATFILTER = true;
     public static final String DEFAULT_URLPATTERN = "/druid/*";
-
+    public static final String DEFAULT_ALLOW = "127.0.0.1";
+    public static final String DEFAULT_DENY = "";
+    public static final String DEFAULT_DRUIDUSERNAME = "admin";
+    public static final String DEFAULT_DRUIDPASSWORD = "123456";
+    public static final Boolean DEFAULT_RESETENABLE = false;
+    public static final Integer DEFAULT_SLOWSQLMILLIS = 1000;
 
 
     public static DataSources defaultInstance() {
@@ -33,10 +36,14 @@ public class DataSources {
         this.initSize = DEFAULT_INITSIZE;
         this.minIdle = DEFAULT_MINIDLE;
         this.maxAct = DEFAULT_MAXACT;
-        this.timeout = DEFAULT_TIMEOUT;
         this.maxWait = DEFAULT_MAXWAIT;
-        this.webStatFilter = DEFAULT_WEBSTATFILTER;
         this.urlPattern = DEFAULT_URLPATTERN;
+        this.allow = DEFAULT_ALLOW;
+        this.deny = DEFAULT_DENY;
+        this.druidUsername = DEFAULT_DRUIDUSERNAME;
+        this.druidPassword = DEFAULT_DRUIDPASSWORD;
+        this.resetEnable = DEFAULT_RESETENABLE;
+        this.slowSqlMillis = DEFAULT_SLOWSQLMILLIS;
 
     }
 
@@ -76,27 +83,46 @@ public class DataSources {
     public Integer getMaxAct() { return this.maxAct; }
     public void  setMaxAct(Integer maxAct) {  this.maxAct = maxAct; }
 
-    @FieldDescribe("超时时间(以秒数为单位)")
-    private Integer timeout;
-    public Integer getTimeout() { return this.timeout; }
-    public void  setTimeout(Integer timeout) {  this.timeout = timeout; }
-
     @FieldDescribe("获取连接超时时间")
     private Integer maxWait;
     public Integer getMaxWait() { return this.maxWait; }
     public void  setMaxWait(Integer maxWait) {  this.maxWait = maxWait; }
 
-    @FieldDescribe("配置监控统计")
-    private Boolean webStatFilter;
-    public Boolean getWebStatFilter() {
-        return BooleanUtils.isTrue(this.webStatFilter);
-    }
-    public void SetWebStatFilter(Boolean webStatFilter) {this.webStatFilter = webStatFilter;}
 
     @FieldDescribe("druid 地址")
     private String urlPattern;
     public String getUrlPattern() { return this.urlPattern; }
     public void  setUrlPattern(String urlPattern) {  this.urlPattern = urlPattern; }
 
+    @FieldDescribe("druid 地址")
+    private String allow;
+    public String getAllow() { return this.allow; }
+    public void  setAllow(String deny) {  this.allow = allow; }
 
+    @FieldDescribe("druid 地址")
+    private String deny;
+    public String getDeny() { return this.deny; }
+    public void  setDeny(String deny) {  this.deny = deny; }
+
+    @FieldDescribe("druid 地址")
+    private String druidUsername;
+    public String getDruidUsername() { return this.druidUsername; }
+    public void  setDruidUsername(String druidUsername) {  this.druidUsername = druidUsername; }
+
+    @FieldDescribe("druid 地址")
+    private String druidPassword;
+    public String getDruidPassword() { return this.druidPassword; }
+    public void  setDruidPassword(String druidPassword) {  this.druidPassword = druidPassword; }
+
+    @FieldDescribe("配置监控统计")
+    private Boolean resetEnable;
+    public Boolean getResetEnable() {
+        return BooleanUtils.isTrue(this.resetEnable);
+    }
+    public void setResetEnable(Boolean resetEnable) {this.resetEnable = resetEnable;}
+
+    @FieldDescribe("超时时间(以秒数为单位)")
+    private Integer slowSqlMillis;
+    public Integer getSlowSqlMillis() { return this.slowSqlMillis; }
+    public void  setSlowSqlMillis(Integer slowSqlMillis) {  this.slowSqlMillis = slowSqlMillis; }
 }

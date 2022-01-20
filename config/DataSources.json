@@ -6,10 +6,14 @@
   "initSize": 5,
   "minIdle": 15,
   "maxAct": 30,
-  "timeout": 180,
   "maxWait": 3000,
-  "webStatFilter": true,
   "urlPattern": "/druid/*",
+  "allow": "127.0.0.1",
+  "deny": "",
+  "druidUsername": "admin",
+  "druidPassword": "123456",
+  "resetEnable": false,
+  "slowSqlMillis": 1000,
 
   "#driverClassName驱动": "net.sf.log4jdbc.sql.jdbcapi.DriverSpy",
   "#url 数据库链接字符串": "jdbc:log4jdbc:mysql://localhost:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false",
@@ -18,9 +22,13 @@
   "#initSize 初始连接数": 5,
   "#minIdle 最小连接数": 15,
   "#maxAct 最大连接数": 30,
-  "#timeout 超时时间(以秒数为单位)": 180,
   "#maxWait 获取连接超时时间": 3000,
-  "#webStatFilter 配置监控统计": true,
-  "#urlPattern": "/druid/*"
+  "#urlPattern": "/druid/*",
+  "#allow 白名单": "127.0.0.1",
+  "#deny 黑名单": "",
+  "#druidUsername druid用户名": "admin",
+  "#druidPassword druid密码": "123456",
+  "#resetEnable 是否允许重置数据": false,
+  "#slowSqlMillis 慢sql的时长": 1000
 }
 

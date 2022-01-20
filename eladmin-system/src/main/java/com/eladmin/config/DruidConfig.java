@@ -1,6 +1,10 @@
 package com.eladmin.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,12 +31,12 @@ public class DruidConfig {
         ds.setMinIdle(Config.dataSources().getMinIdle());
         ds.setMaxActive(Config.dataSources().getMaxAct());
         // 配置获取连接等待超时的时间
-        ds.setMaxWait(60000);
+        ds.setMaxWait(Config.dataSources().getMaxWait());
         // 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
         ds.setTimeBetweenEvictionRunsMillis(60000);
         // 配置一个连接在池中最小生存的时间，单位是毫秒
         ds.setMinEvictableIdleTimeMillis(300000);
-        ds.setValidationQuery("SELECT 'X'");
+        ds.setValidationQuery("select 1");
         ds.setTestWhileIdle(true);
         ds.setTestOnBorrow(false);
         ds.setTestOnReturn(false);
@@ -43,55 +47,39 @@ public class DruidConfig {
         // 配置监控统计拦截的filters
         ds.setFilters("stat,wall");
 
-//        #      db-type: com.alibaba.druid.pool.DruidDataSource
-//#      driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-//#      url: jdbc:log4jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-//#      username: ${DB_USER:root}
-//#      password: ${DB_PWD:123456}
-//#      # 初始连接数
-//#      initial-size: 5
-//#      # 最小连接数
-//#      min-idle: 15
-//#      # 最大连接数
-//#      max-active: 30
-//#      # 超时时间(以秒数为单位)
-//#      remove-abandoned-timeout: 180
-//#      # 获取连接超时时间
-//#      max-wait: 3000
-//#      # 连接有效性检测时间
-//#      time-between-eviction-runs-millis: 60000
-//#      # 连接在池中最小生存的时间
-//#      min-evictable-idle-time-millis: 300000
-//#      # 连接在池中最大生存的时间
-//#      max-evictable-idle-time-millis: 900000
-//#      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
-//#      test-while-idle: true
-//#      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
-//#      test-on-borrow: true
-//#      # 是否在归还到池中前进行检验
-//#      test-on-return: false
-//#      # 检测连接是否有效
-//#      validation-query: select 1
-//#      # 配置监控统计
-//#      webStatFilter:
-//#        enabled: true
-//#      stat-view-servlet:
-//#        enabled: true
-//#        url-pattern: /druid/*
-//#        reset-enable: false
-//#      filter:
-//#        stat:
-//#          enabled: true
-//#          # 记录慢SQL
-//#          log-slow-sql: true
-//#          slow-sql-millis: 1000
-//#          merge-sql: true
-//#        wall:
-//#          config:
-//#            multi-statement-allow: true
-
         return ds;
 
+    }
+    @Bean
+    public ServletRegistrationBean staViewServlet() throws Exception {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
+        servletRegistrationBean.setServlet(new StatViewServlet());
+
+        servletRegistrationBean.addUrlMappings(Config.dataSources().getUrlPattern());
+        //白名单为空允许任何ip访问
+        servletRegistrationBean.addInitParameter("allow",Config.dataSources().getAllow());
+        //ip黑名单(存在共同时，deny优先于allow)：如果满足deny的即提示：Sorry you are not permitted...
+        servletRegistrationBean.addInitParameter("deny",Config.dataSources().getDeny());
+        //登录查看信息的账号密码
+        servletRegistrationBean.addInitParameter("loginUsername",Config.dataSources().getDruidUsername());
+        servletRegistrationBean.addInitParameter("loginPassword",Config.dataSources().getDruidPassword());
+        //是否能够重置数据
+        servletRegistrationBean.addInitParameter("resetEnable",Config.dataSources().getResetEnable().toString());
+        //记录慢SQL
+        servletRegistrationBean.addInitParameter("logSlowSql", "true");
+        servletRegistrationBean.addInitParameter("slowSqlMillis", Config.dataSources().getSlowSqlMillis().toString());
+        servletRegistrationBean.addInitParameter("mergeSql", "true");
+        return servletRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean statFilter(){
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+        //添加过滤规则
+        filterRegistrationBean.addUrlPatterns("/*");
+        //添加不需要忽略的格式信息
+        filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpn,*.png,*.css,*.ico,/druid/*");
+        return filterRegistrationBean;
     }
 
     /*
