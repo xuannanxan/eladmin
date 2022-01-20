@@ -89,15 +89,10 @@ public class AuthorizationController {
             throw new BadRequestException("验证码错误");
         }
         //如果用户不存在
-        if (userRepository.findByUsername(authUser.getUsername()) == null) {
+        if (userRepository.findByUsername(authUser.getUsername()) == null && userRepository.findByEmail(authUser.getUsername()) == null && userRepository.findByPhone(authUser.getUsername()) == null) {
             throw new BadRequestException("用户名或密码错误");
         }
-        if (userRepository.findByEmail(authUser.getUsername()) == null) {
-            throw new BadRequestException("用户名或密码错误");
-        }
-        if (userRepository.findByPhone(authUser.getUsername()) == null) {
-            throw new BadRequestException("用户名或密码错误");
-        }
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
