@@ -21,7 +21,7 @@ public class Config {
     }
 
     public static final String  PATH_CONFIG_DATASOURCES = "config/DataSources.json";
-    public static final String PATH_CONFIG_SERVER = "config/server.json";
+    public static final String PATH_CONFIG_SERVER = "config/Server.json";
     public static final String PATH_VERSION = "version.txt";
     public static final String PATH_CONFIG_TOKEN = "config/token.json";
     public static final String PATH_CONFIG_PUBLICKEY = "config/public.key";

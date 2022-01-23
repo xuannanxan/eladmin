@@ -1,7 +1,7 @@
 package com.eladmin.modules.initialization;
 
 import com.eladmin.modules.system.domain.User;
-import com.eladmin.modules.system.repository.UserRepository;
+import com.eladmin.modules.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +20,14 @@ import javax.annotation.PostConstruct;
 @Component
 public class Manager {
     private static final Logger log = LoggerFactory.getLogger(Manager.class);
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void InitialManager() throws Exception {
         String InitialManager = Config.token().getManager();
         //如果用户不存在
-        if (userRepository.findByUsername(InitialManager) == null) {
+        if (userService.findByName(InitialManager) == null) {
             log.info(Config.token().getNickName()+"不存在，开始进行初始化...");
             User manager = new  User();
             manager.setUsername(InitialManager);
@@ -38,7 +38,7 @@ public class Manager {
             manager.setEnabled(true);
             manager.setEmail(Config.token().getEmail());
             manager.setPhone(Config.token().getPhone());
-            userRepository.save(manager);
+            userService.create(manager);
             log.info("初始化"+Config.token().getNickName()+"成功");
         }
 
