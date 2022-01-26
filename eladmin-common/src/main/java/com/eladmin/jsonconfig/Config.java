@@ -22,6 +22,7 @@ public class Config {
 
     public static final String  PATH_CONFIG_DATASOURCES = "config/DataSources.json";
     public static final String PATH_CONFIG_SERVER = "config/Server.json";
+    public static final String PATH_CONFIG_MENU = "config/Menu.json";
     public static final String PATH_VERSION = "version.txt";
     public static final String PATH_CONFIG_TOKEN = "config/token.json";
     public static final String PATH_CONFIG_PUBLICKEY = "config/public.key";
@@ -104,6 +105,21 @@ public class Config {
         }
         return instance().token;
     }
+
+
+    private Menu menu;
+
+    public static synchronized Menu menu() throws Exception {
+        if (null == instance().token) {
+            Menu o = ConfigTools.readConfigObject(PATH_CONFIG_MENU, Menu.class);
+            if (null == o) {
+                o = Menu.defaultInstance();
+            }
+            instance().menu = o;
+        }
+        return instance().menu;
+    }
+
 
     private String publicKey;
 
