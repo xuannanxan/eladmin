@@ -31,7 +31,6 @@ import com.eladmin.modules.system.service.dto.JobSmallDto;
 import com.eladmin.modules.system.service.dto.RoleSmallDto;
 import com.eladmin.modules.system.service.dto.UserDto;
 import com.eladmin.modules.system.service.dto.UserQueryCriteria;
-import com.eladmin.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -175,7 +174,16 @@ public class UserServiceImpl implements UserService {
             return userMapper.toDto(user);
         }
     }
-
+    /**
+     * 根据用户名、邮箱、手机号查询用户
+     *
+     * **/
+    @Override
+    public User findUser(String userName) {
+        User user = userRepository.findByUsername(userName);
+        user = user != null?user:(userRepository.findByEmail(userName)!=null?userRepository.findByEmail(userName):userRepository.findByPhone(userName));
+        return  user;
+    }
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String username, String pass) {

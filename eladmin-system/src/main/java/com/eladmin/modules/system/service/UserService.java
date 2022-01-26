@@ -65,6 +65,8 @@ public interface UserService {
      */
     UserDto findByName(String userName);
 
+    User findUser(String userName);
+
     /**
      * 修改密码
      * @param username 用户名

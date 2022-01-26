@@ -1,5 +1,6 @@
 package com.eladmin.modules.initialization;
 
+import com.alibaba.fastjson.JSONArray;
 import com.eladmin.modules.system.domain.User;
 import com.eladmin.modules.system.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.eladmin.jsonconfig.Config;
 import javax.annotation.PostConstruct;
-
+import java.util.Arrays;
 
 
 /**
@@ -26,8 +27,7 @@ public class Manager {
     @PostConstruct
     public void InitialManager() throws Exception {
         String InitialManager = Config.token().getManager();
-        //如果用户不存在
-        if (userService.findByName(InitialManager) == null) {
+        if (userService.findUser(InitialManager) == null) {
             log.info(Config.token().getNickName()+"不存在，开始进行初始化...");
             User manager = new  User();
             manager.setUsername(InitialManager);

@@ -1,12 +1,17 @@
 package com.eladmin.modules.initialization;
 
+import com.alibaba.fastjson.JSONArray;
 import com.eladmin.modules.system.service.MenuService;
 import com.eladmin.jsonconfig.Config;
+import com.eladmin.modules.system.service.dto.MenuDto;
+import com.eladmin.modules.system.service.dto.MenuQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -16,20 +21,18 @@ public class Menu {
 
     @PostConstruct
     public void InitialMenu() throws Exception {
-        Object[] menu = Config.menu().getMenu();
+        MenuQueryCriteria criteria = new MenuQueryCriteria();
+        List<MenuDto> menuDtoList = menuService.queryAll(criteria, true);
+
+        JSONArray[] menu = Config.menu().getMenu();
+
+
         for(int i=0;i<menu.length;i++)
         {
-            for(int j=0;j<menu[i].length;j++){
-                System.out.println(menu[i][j]);
+            for(int j=0;j<menu[i].size();j++){
+                log.info("初始化"+menu[i].get(j).toString()+"成功");
             }
-
         }
-        //如果用户不存在
-//        if (menuService.queryAll('',) == null) {
-//            log.info(Config.token().getNickName()+"不存在，开始进行初始化...");
-//
-//            menuService.create();
-//            log.info("初始化"+Config.token().getNickName()+"成功");
-//        }
+
     }
 }

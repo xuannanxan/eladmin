@@ -110,7 +110,7 @@ public class Config {
     private Menu menu;
 
     public static synchronized Menu menu() throws Exception {
-        if (null == instance().token) {
+        if (null == instance().menu) {
             Menu o = ConfigTools.readConfigObject(PATH_CONFIG_MENU, Menu.class);
             if (null == o) {
                 o = Menu.defaultInstance();
