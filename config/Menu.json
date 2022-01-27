@@ -1,4 +1,24 @@
 {
+  "columns": [
+    "menuId",
+    "pid",
+    "subCount",
+    "type",
+    "title",
+    "name",
+    "component",
+    "menuSort",
+    "icon",
+    "path",
+    "iFrame",
+    "cache",
+    "hidden",
+    "permission",
+    "createBy",
+    "updateBy",
+    "createTime",
+    "updateTime"
+  ],
   "menu": [
     [1, "", 7, 0, "系统管理", "", "", 1, "system", "system", 0, 0, 0, "", "", "", "2018-12-18 15:11:29", ""],
     [2, 1, 3, 1, "用户管理", "User", "system/user/index", 2, "peoples", "user", 0, 0, 0, "user:list", "", "", "2018-12-18 15:14:44", ""],

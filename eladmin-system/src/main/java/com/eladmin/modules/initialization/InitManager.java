@@ -1,6 +1,5 @@
 package com.eladmin.modules.initialization;
 
-import com.alibaba.fastjson.JSONArray;
 import com.eladmin.modules.system.domain.User;
 import com.eladmin.modules.system.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.eladmin.jsonconfig.Config;
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 
 
 /**
@@ -19,8 +17,8 @@ import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Component
-public class Manager {
-    private static final Logger log = LoggerFactory.getLogger(Manager.class);
+public class InitManager {
+    private static final Logger log = LoggerFactory.getLogger(InitManager.class);
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 

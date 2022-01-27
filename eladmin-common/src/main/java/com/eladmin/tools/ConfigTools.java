@@ -61,26 +61,7 @@ public class ConfigTools {
         }
         return JSON.toJavaObject(jsonObject, cls);
     }
-    /**
-     * 完成子节点的转换
-     * 1、如果是JSONObject，表示还没有到底层，继续递归；
-     * 2、如果是JSONArray，表示是一个数组对象，我们直接拿出来就行；
-     * 3、如果是String类型，表示是根节点，直接输出
-     * **/
-    private static void transformChildrenNode(JSONObject jb){
-        for(String key : jb.keySet()) {
-            if(jb.get(key) instanceof JSONObject){
-                JSONObject childJb = JSONObject.parseObject(String.valueOf(jb.get(key)));
-                transformChildrenNode(childJb);
-            }else if(jb.get(key) instanceof JSONArray){
-                JSONArray childArr = (JSONArray) jb.get(key);
-                System.out.println(key+":"+childArr);
-            }else{
-                System.out.println(key+":"+jb.get(key));
-            }
 
-        }
-    }
 
     private static void removeComment(Map<String, Object> map) {
         List<Map.Entry<String, Object>> entries = new ArrayList<>();
