@@ -17,7 +17,10 @@ package com.eladmin.modules.system.rest;
 
 import cn.hutool.core.lang.Dict;
 import com.eladmin.annotation.Log;
+import com.eladmin.jsonconfig.Config;
 import com.eladmin.modules.system.domain.Role;
+import com.eladmin.modules.system.domain.User;
+import com.eladmin.modules.system.repository.UserRepository;
 import com.eladmin.modules.system.service.RoleService;
 import com.eladmin.modules.system.service.dto.RoleDto;
 import com.eladmin.modules.system.service.dto.RoleQueryCriteria;
@@ -51,7 +54,7 @@ import java.util.stream.Collectors;
 public class RoleController {
 
     private final RoleService roleService;
-
+    private final UserRepository userRepository;
     private static final String ENTITY_NAME = "role";
 
     @ApiOperation("获取单个role")
@@ -142,6 +145,15 @@ public class RoleController {
      * @return /
      */
     private int getLevels(Integer level){
+        //如果是超级管理员，返回角色级别为999
+        try {
+            if((userRepository.findById(SecurityUtils.getCurrentUserId()).orElseGet(User::new)).getUsername().equals(Config.token().getManager())){
+                return 999999;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //否则就获取角色等级
         List<Integer> levels = roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList());
         int min = Collections.min(levels);
         if(level != null){

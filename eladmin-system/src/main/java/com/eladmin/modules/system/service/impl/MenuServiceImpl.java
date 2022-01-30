@@ -17,6 +17,7 @@ package com.eladmin.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.eladmin.jsonconfig.Config;
 import com.eladmin.modules.system.domain.User;
 import com.eladmin.modules.system.repository.MenuRepository;
 import com.eladmin.modules.system.repository.UserRepository;
@@ -101,6 +102,14 @@ public class MenuServiceImpl implements MenuService {
         List<RoleSmallDto> roles = roleService.findByUsersId(currentUserId);
         Set<Long> roleIds = roles.stream().map(RoleSmallDto::getId).collect(Collectors.toSet());
         LinkedHashSet<Menu> menus = menuRepository.findByRoleIdsAndTypeNot(roleIds, 2);
+        //如果是超级管理员就返回全部菜单
+        try {
+            if((userRepository.findById(currentUserId).orElseGet(User::new)).getUsername().equals(Config.token().getManager())){
+                menus = menuRepository.findOfMangerByTypeNot(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return menus.stream().map(menuMapper::toDto).collect(Collectors.toList());
     }
 

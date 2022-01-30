@@ -68,6 +68,14 @@ public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificat
     LinkedHashSet<Menu> findByRoleIdsAndTypeNot(Set<Long> roleIds, int type);
 
     /**
+     * 根据菜单类型查询菜单，用于超级管理员
+     * @param type 类型
+     * @return /
+     */
+    @Query(value = "SELECT m.* FROM sys_menu m WHERE " +
+            "type != ?1 order by m.menu_sort asc",nativeQuery = true)
+    LinkedHashSet<Menu> findOfMangerByTypeNot(int type);
+    /**
      * 获取节点数量
      * @param id /
      * @return /
