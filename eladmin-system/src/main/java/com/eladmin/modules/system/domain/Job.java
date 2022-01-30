@@ -35,12 +35,12 @@ import java.util.Objects;
 @Table(name="sys_job")
 public class Job extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "job_id")
-    @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "job_id")
+//    @NotNull(groups = Update.class)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @NotBlank
     @ApiModelProperty(value = "岗位名称")
@@ -63,11 +63,11 @@ public class Job extends BaseEntity implements Serializable {
             return false;
         }
         Job job = (Job) o;
-        return Objects.equals(id, job.id);
+        return Objects.equals(getId(), job.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 }

@@ -25,7 +25,7 @@ import java.util.List;
 * @author Zheng Jie
 * @date 2019-04-10
 */
-public interface DictDetailRepository extends JpaRepository<DictDetail, Long>, JpaSpecificationExecutor<DictDetail> {
+public interface DictDetailRepository extends JpaRepository<DictDetail, String>, JpaSpecificationExecutor<DictDetail> {
 
     /**
      * 根据字典名称查询

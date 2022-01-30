@@ -30,7 +30,7 @@ import java.util.Set;
 @Setter
 public class RoleDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Set<MenuDto> menus;
 

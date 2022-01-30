@@ -31,7 +31,7 @@ import java.util.Objects;
 @Setter
 public class DeptDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -42,7 +42,7 @@ public class DeptDto extends BaseDTO implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDto> children;
 
-    private Long pid;
+    private String pid;
 
     private Integer subCount;
 

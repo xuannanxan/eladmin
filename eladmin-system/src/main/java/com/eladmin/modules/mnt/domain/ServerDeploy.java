@@ -39,7 +39,7 @@ public class ServerDeploy extends BaseEntity implements Serializable {
     @Column(name = "server_id")
     @ApiModelProperty(value = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "服务器名称")
     private String name;

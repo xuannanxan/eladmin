@@ -35,11 +35,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LocalStorage extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "storage_id")
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "storage_id")
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @ApiModelProperty(value = "真实文件名")
     private String realName;

@@ -89,7 +89,7 @@ public class UserController {
             criteria.getDeptIds().addAll(deptService.getDeptChildren(data));
         }
         // 数据权限
-        List<Long> dataScopes = dataService.getDeptIds(userService.findByName(SecurityUtils.getCurrentUsername()));
+        List<String> dataScopes = dataService.getDeptIds(userService.findByName(SecurityUtils.getCurrentUsername()));
         // criteria.getDeptIds() 不为空并且数据权限不为空则取交集
         if (!CollectionUtils.isEmpty(criteria.getDeptIds()) && !CollectionUtils.isEmpty(dataScopes)){
             // 取交集
@@ -142,8 +142,8 @@ public class UserController {
     @ApiOperation("删除用户")
     @DeleteMapping
     @PreAuthorize("@el.check('user:del')")
-    public ResponseEntity<Object> deleteUser(@RequestBody Set<Long> ids){
-        for (Long id : ids) {
+    public ResponseEntity<Object> deleteUser(@RequestBody Set<String> ids){
+        for (String id : ids) {
             Integer currentLevel =  Collections.min(roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
             Integer optLevel =  Collections.min(roleService.findByUsersId(id).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
             if (currentLevel > optLevel) {

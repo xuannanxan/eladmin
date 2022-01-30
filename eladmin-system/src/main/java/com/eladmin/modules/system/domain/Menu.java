@@ -39,13 +39,12 @@ import java.util.Set;
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class Menu extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "menu_id")
-    @NotNull(groups = {Update.class})
-    @ApiModelProperty(value = "ID", hidden = true)
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "menu_id")
+//    @NotNull(groups = {Update.class})
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @JSONField(serialize = false)
     @ManyToMany(mappedBy = "menus")
@@ -86,7 +85,7 @@ public class Menu extends BaseEntity implements Serializable {
     private Boolean hidden;
 
     @ApiModelProperty(value = "上级菜单")
-    private Long pid;
+    private String pid;
 
     @ApiModelProperty(value = "子节点数目", hidden = true)
     private Integer subCount = 0;
@@ -103,11 +102,11 @@ public class Menu extends BaseEntity implements Serializable {
             return false;
         }
         Menu menu = (Menu) o;
-        return Objects.equals(id, menu.id);
+        return Objects.equals(getId(), menu.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 }

@@ -65,9 +65,9 @@ public class DeptController {
     @ApiOperation("查询部门:根据ID获取同级与上级数据")
     @PostMapping("/superior")
     @PreAuthorize("@el.check('user:list','dept:list')")
-    public ResponseEntity<Object> getDeptSuperior(@RequestBody List<Long> ids) {
+    public ResponseEntity<Object> getDeptSuperior(@RequestBody List<String> ids) {
         Set<DeptDto> deptDtos  = new LinkedHashSet<>();
-        for (Long id : ids) {
+        for (String id : ids) {
             DeptDto deptDto = deptService.findById(id);
             List<DeptDto> depts = deptService.getSuperior(deptDto, new ArrayList<>());
             deptDtos.addAll(depts);
@@ -100,9 +100,9 @@ public class DeptController {
     @ApiOperation("删除部门")
     @DeleteMapping
     @PreAuthorize("@el.check('dept:del')")
-    public ResponseEntity<Object> deleteDept(@RequestBody Set<Long> ids){
+    public ResponseEntity<Object> deleteDept(@RequestBody Set<String> ids){
         Set<DeptDto> deptDtos = new HashSet<>();
-        for (Long id : ids) {
+        for (String id : ids) {
             List<Dept> deptList = deptService.findByPid(id);
             deptDtos.add(deptService.findById(id));
             if(CollectionUtil.isNotEmpty(deptList)){

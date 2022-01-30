@@ -28,7 +28,7 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2018-12-03
  */
-public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
 
     /**
      * 根据名称查询
@@ -41,7 +41,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      * 删除多个角色
      * @param ids /
      */
-    void deleteAllByIdIn(Set<Long> ids);
+    void deleteAllByIdIn(Set<String> ids);
 
     /**
      * 根据用户ID查询
@@ -50,7 +50,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      */
     @Query(value = "SELECT r.* FROM sys_role r, sys_users_roles u WHERE " +
             "r.role_id = u.role_id AND u.user_id = ?1",nativeQuery = true)
-    Set<Role> findByUserId(Long id);
+    Set<Role> findByUserId(String id);
 
     /**
      * 解绑角色菜单
@@ -58,7 +58,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      */
     @Modifying
     @Query(value = "delete from sys_roles_menus where menu_id = ?1",nativeQuery = true)
-    void untiedMenu(Long id);
+    void untiedMenu(String id);
 
     /**
      * 根据部门查询
@@ -67,7 +67,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      */
     @Query(value = "select count(1) from sys_role r, sys_roles_depts d where " +
             "r.role_id = d.role_id and d.dept_id in ?1",nativeQuery = true)
-    int countByDepts(Set<Long> deptIds);
+    int countByDepts(Set<String> deptIds);
 
     /**
      * 根据菜单Id查询
@@ -76,5 +76,5 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      */
     @Query(value = "SELECT r.* FROM sys_role r, sys_roles_menus m WHERE " +
             "r.role_id = m.role_id AND m.menu_id in ?1",nativeQuery = true)
-    List<Role> findInMenuId(List<Long> menuIds);
+    List<Role> findInMenuId(List<String> menuIds);
 }

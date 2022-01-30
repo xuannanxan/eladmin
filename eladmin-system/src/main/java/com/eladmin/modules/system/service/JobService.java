@@ -36,7 +36,7 @@ public interface JobService {
      * @param id /
      * @return /
      */
-    JobDto findById(Long id);
+    JobDto findById(String id);
 
     /**
      * 创建
@@ -55,7 +55,7 @@ public interface JobService {
      * 删除
      * @param ids /
      */
-    void delete(Set<Long> ids);
+    void delete(Set<String> ids);
 
     /**
      * 分页查询
@@ -84,5 +84,5 @@ public interface JobService {
      * 验证是否被用户关联
      * @param ids /
      */
-    void verification(Set<Long> ids);
+    void verification(Set<String> ids);
 }

@@ -33,12 +33,12 @@ import java.io.Serializable;
 @Table(name="sys_dict_detail")
 public class DictDetail extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "detail_id")
-    @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "detail_id")
+//    @NotNull(groups = Update.class)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @JoinColumn(name = "dict_id")
     @ManyToOne(fetch=FetchType.LAZY)

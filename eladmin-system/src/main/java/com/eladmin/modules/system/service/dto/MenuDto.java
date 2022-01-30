@@ -30,7 +30,7 @@ import java.util.Objects;
 @Setter
 public class MenuDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private List<MenuDto> children;
 
@@ -46,7 +46,7 @@ public class MenuDto extends BaseDTO implements Serializable {
 
     private String component;
 
-    private Long pid;
+    private String pid;
 
     private Integer subCount;
 

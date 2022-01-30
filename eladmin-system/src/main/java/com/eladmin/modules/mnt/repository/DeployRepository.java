@@ -23,5 +23,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 * @author zhanghouying
 * @date 2019-08-24
 */
-public interface DeployRepository extends JpaRepository<Deploy, Long>, JpaSpecificationExecutor<Deploy> {
+public interface DeployRepository extends JpaRepository<Deploy, String>, JpaSpecificationExecutor<Deploy> {
 }

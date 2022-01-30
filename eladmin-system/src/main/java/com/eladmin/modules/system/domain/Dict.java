@@ -35,12 +35,12 @@ import java.util.List;
 @Table(name="sys_dict")
 public class Dict extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "dict_id")
-    @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "dict_id")
+//    @NotNull(groups = Update.class)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     private List<DictDetail> dictDetails;

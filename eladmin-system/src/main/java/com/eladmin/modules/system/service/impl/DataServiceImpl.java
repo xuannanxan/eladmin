@@ -49,9 +49,9 @@ public class DataServiceImpl implements DataService {
      */
     @Override
     @Cacheable(key = "'user:' + #p0.id")
-    public List<Long> getDeptIds(UserDto user) {
+    public List<String> getDeptIds(UserDto user) {
         // 用于存储部门id
-        Set<Long> deptIds = new HashSet<>();
+        Set<String> deptIds = new HashSet<>();
         // 查询用户角色
         List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
         // 获取对应的部门ID
@@ -77,7 +77,7 @@ public class DataServiceImpl implements DataService {
      * @param role 角色
      * @return 数据权限ID
      */
-    public Set<Long> getCustomize(Set<Long> deptIds, RoleSmallDto role){
+    public Set<String> getCustomize(Set<String> deptIds, RoleSmallDto role){
         Set<Dept> depts = deptService.findByRoleId(role.getId());
         for (Dept dept : depts) {
             deptIds.add(dept.getId());

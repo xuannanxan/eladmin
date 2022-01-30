@@ -66,7 +66,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Cacheable(key = "'id:' + #p0")
-    public JobDto findById(Long id) {
+    public JobDto findById(String id) {
         Job job = jobRepository.findById(id).orElseGet(Job::new);
         ValidationUtil.isNull(job.getId(),"Job","id",id);
         return jobMapper.toDto(job);
@@ -98,7 +98,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
+    public void delete(Set<String> ids) {
         jobRepository.deleteAllByIdIn(ids);
         // 删除缓存
         redisUtils.delByKeys(CacheKey.JOB_ID, ids);
@@ -118,7 +118,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void verification(Set<Long> ids) {
+    public void verification(Set<String> ids) {
         if(userRepository.countByJobs(ids) > 0){
             throw new BadRequestException("所选的岗位中存在用户关联，请解除关联再试！");
         }

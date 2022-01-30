@@ -85,7 +85,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Cacheable(key = "'id:' + #p0")
     @Transactional(rollbackFor = Exception.class)
-    public RoleDto findById(long id) {
+    public RoleDto findById(String id) {
         Role role = roleRepository.findById(id).orElseGet(Role::new);
         ValidationUtil.isNull(role.getId(), "Role", "id", id);
         return roleMapper.toDto(role);
@@ -133,15 +133,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void untiedMenu(Long menuId) {
+    public void untiedMenu(String menuId) {
         // 更新菜单
         roleRepository.untiedMenu(menuId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             // 更新相关缓存
             delCaches(id, null);
         }
@@ -149,7 +149,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleSmallDto> findByUsersId(Long id) {
+    public List<RoleSmallDto> findByUsersId(String id) {
         return roleSmallMapper.toDto(new ArrayList<>(roleRepository.findByUserId(id)));
     }
 
@@ -198,14 +198,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void verification(Set<Long> ids) {
+    public void verification(Set<String> ids) {
         if (userRepository.countByRoles(ids) > 0) {
             throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
         }
     }
 
     @Override
-    public List<Role> findInMenuId(List<Long> menuIds) {
+    public List<Role> findInMenuId(List<String> menuIds) {
         return roleRepository.findInMenuId(menuIds);
     }
 
@@ -213,11 +213,11 @@ public class RoleServiceImpl implements RoleService {
      * 清理缓存
      * @param id /
      */
-    public void delCaches(Long id, List<User> users) {
+    public void delCaches(String id, List<User> users) {
         users = CollectionUtil.isEmpty(users) ? userRepository.findByRoleId(id) : users;
         if (CollectionUtil.isNotEmpty(users)) {
             users.forEach(item -> userCacheClean.cleanUserCache(item.getUsername()));
-            Set<Long> userIds = users.stream().map(User::getId).collect(Collectors.toSet());
+            Set<String> userIds = users.stream().map(User::getId).collect(Collectors.toSet());
             redisUtils.delByKeys(CacheKey.DATA_USER, userIds);
             redisUtils.delByKeys(CacheKey.MENU_USER, userIds);
             redisUtils.delByKeys(CacheKey.ROLE_AUTH, userIds);

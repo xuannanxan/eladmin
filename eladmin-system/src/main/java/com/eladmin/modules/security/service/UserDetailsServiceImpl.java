@@ -107,7 +107,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 throw new RuntimeException(e.getMessage());
             }
             // 检查dataScope是否修改
-            List<Long> dataScopes = jwtUserDto.getDataScopes();
+            List<String> dataScopes = jwtUserDto.getDataScopes();
             dataScopes.clear();
             dataScopes.addAll(dataService.getDeptIds(jwtUserDto.getUser()));
 

@@ -64,7 +64,7 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     }
 
     @Override
-    public LocalStorageDto findById(Long id){
+    public LocalStorageDto findById(String id){
         LocalStorage localStorage = localStorageRepository.findById(id).orElseGet(LocalStorage::new);
         ValidationUtil.isNull(localStorage.getId(),"LocalStorage","id",id);
         return localStorageMapper.toDto(localStorage);
@@ -108,8 +108,8 @@ public class LocalStorageServiceImpl implements LocalStorageService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteAll(Long[] ids) {
-        for (Long id : ids) {
+    public void deleteAll(String[] ids) {
+        for (String id : ids) {
             LocalStorage storage = localStorageRepository.findById(id).orElseGet(LocalStorage::new);
             FileUtil.del(storage.getPath());
             localStorageRepository.delete(storage);

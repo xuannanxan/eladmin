@@ -23,7 +23,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 * @author zhanghouying
 * @date 2019-08-24
 */
-public interface ServerDeployRepository extends JpaRepository<ServerDeploy, Long>, JpaSpecificationExecutor<ServerDeploy> {
+public interface ServerDeployRepository extends JpaRepository<ServerDeploy, String>, JpaSpecificationExecutor<ServerDeploy> {
 
     /**
      * 根据IP查询

@@ -25,7 +25,7 @@ import java.util.Set;
 * @author Zheng Jie
 * @date 2019-03-29
 */
-public interface JobRepository extends JpaRepository<Job, Long>, JpaSpecificationExecutor<Job> {
+public interface JobRepository extends JpaRepository<Job, String>, JpaSpecificationExecutor<Job> {
 
     /**
      * 根据名称查询
@@ -38,5 +38,5 @@ public interface JobRepository extends JpaRepository<Job, Long>, JpaSpecificatio
      * 根据Id删除
      * @param ids /
      */
-    void deleteAllByIdIn(Set<Long> ids);
+    void deleteAllByIdIn(Set<String> ids);
 }

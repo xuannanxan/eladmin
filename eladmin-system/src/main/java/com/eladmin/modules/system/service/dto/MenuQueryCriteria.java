@@ -37,5 +37,5 @@ public class MenuQueryCriteria {
     private Boolean pidIsNull;
 
     @Query
-    private Long pid;
+    private String pid;
 }

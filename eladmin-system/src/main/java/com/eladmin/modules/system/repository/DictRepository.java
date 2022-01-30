@@ -26,18 +26,18 @@ import java.util.Set;
 * @author Zheng Jie
 * @date 2019-04-10
 */
-public interface DictRepository extends JpaRepository<Dict, Long>, JpaSpecificationExecutor<Dict> {
+public interface DictRepository extends JpaRepository<Dict, String>, JpaSpecificationExecutor<Dict> {
 
     /**
      * 删除
      * @param ids /
      */
-    void deleteByIdIn(Set<Long> ids);
+    void deleteByIdIn(Set<String> ids);
 
     /**
      * 查询
      * @param ids /
      * @return /
      */
-    List<Dict> findByIdIn(Set<Long> ids);
+    List<Dict> findByIdIn(Set<String> ids);
 }

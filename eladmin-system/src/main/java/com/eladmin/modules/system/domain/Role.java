@@ -40,12 +40,12 @@ import java.util.Set;
 @Table(name = "sys_role")
 public class Role extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "role_id")
-    @NotNull(groups = {Update.class})
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "ID", hidden = true)
-    private Long id;
+//    @Id
+//    @Column(name = "role_id")
+//    @NotNull(groups = {Update.class})
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    private Long id;
 
     @JSONField(serialize = false)
     @ManyToMany(mappedBy = "roles")
@@ -89,11 +89,11 @@ public class Role extends BaseEntity implements Serializable {
             return false;
         }
         Role role = (Role) o;
-        return Objects.equals(id, role.id);
+        return Objects.equals(getId(), role.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 }

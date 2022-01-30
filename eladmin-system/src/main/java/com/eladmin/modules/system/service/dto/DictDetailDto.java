@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Setter
 public class DictDetailDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private DictSmallDto dict;
 

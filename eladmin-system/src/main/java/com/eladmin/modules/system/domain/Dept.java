@@ -36,13 +36,13 @@ import java.util.Set;
 @Setter
 @Table(name="sys_dept")
 public class Dept extends BaseEntity implements Serializable {
-
-    @Id
-    @Column(name = "dept_id")
-    @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//
+//    @Id
+//    @Column(name = "dept_id")
+//    @NotNull(groups = Update.class)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @JSONField(serialize = false)
     @ManyToMany(mappedBy = "depts")
@@ -61,7 +61,7 @@ public class Dept extends BaseEntity implements Serializable {
     private Boolean enabled;
 
     @ApiModelProperty(value = "上级部门")
-    private Long pid;
+    private String pid;
 
     @ApiModelProperty(value = "子节点数目", hidden = true)
     private Integer subCount = 0;
@@ -75,12 +75,12 @@ public class Dept extends BaseEntity implements Serializable {
             return false;
         }
         Dept dept = (Dept) o;
-        return Objects.equals(id, dept.id) &&
+        return Objects.equals(getId(), dept.getId()) &&
                 Objects.equals(name, dept.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(getId(), name);
     }
 }

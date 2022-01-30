@@ -90,19 +90,19 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Cacheable(key = "'id:' + #p0")
-    public DeptDto findById(Long id) {
+    public DeptDto findById(String id) {
         Dept dept = deptRepository.findById(id).orElseGet(Dept::new);
         ValidationUtil.isNull(dept.getId(),"Dept","id",id);
         return deptMapper.toDto(dept);
     }
 
     @Override
-    public List<Dept> findByPid(long pid) {
+    public List<Dept> findByPid(String pid) {
         return deptRepository.findByPid(pid);
     }
 
     @Override
-    public Set<Dept> findByRoleId(Long id) {
+    public Set<Dept> findByRoleId(String id) {
         return deptRepository.findByRoleId(id);
     }
 
@@ -122,8 +122,8 @@ public class DeptServiceImpl implements DeptService {
     @Transactional(rollbackFor = Exception.class)
     public void update(Dept resources) {
         // 旧的部门
-        Long oldPid = findById(resources.getId()).getPid();
-        Long newPid = resources.getPid();
+        String oldPid = findById(resources.getId()).getPid();
+        String newPid = resources.getPid();
         if(resources.getPid() != null && resources.getId().equals(resources.getPid())) {
             throw new BadRequestException("上级不能为自己");
         }
@@ -175,8 +175,8 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Long> getDeptChildren(List<Dept> deptList) {
-        List<Long> list = new ArrayList<>();
+    public List<String> getDeptChildren(List<Dept> deptList) {
+        List<String> list = new ArrayList<>();
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()) {
                         List<Dept> depts = deptRepository.findByPid(dept.getId());
@@ -238,7 +238,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public void verification(Set<DeptDto> deptDtos) {
-        Set<Long> deptIds = deptDtos.stream().map(DeptDto::getId).collect(Collectors.toSet());
+        Set<String> deptIds = deptDtos.stream().map(DeptDto::getId).collect(Collectors.toSet());
         if(userRepository.countByDepts(deptIds) > 0){
             throw new BadRequestException("所选部门存在用户关联，请解除后再试！");
         }
@@ -247,7 +247,7 @@ public class DeptServiceImpl implements DeptService {
         }
     }
 
-    private void updateSubCnt(Long deptId){
+    private void updateSubCnt(String deptId){
         if(deptId != null){
             int count = deptRepository.countByPid(deptId);
             deptRepository.updateSubCntById(count, deptId);
@@ -275,7 +275,7 @@ public class DeptServiceImpl implements DeptService {
      * 清理缓存
      * @param id /
      */
-    public void delCaches(Long id){
+    public void delCaches(String id){
         List<User> users = userRepository.findByRoleDeptId(id);
         // 删除数据权限
         redisUtils.delByKeys(CacheKey.DATA_USER, users.stream().map(User::getId).collect(Collectors.toSet()));

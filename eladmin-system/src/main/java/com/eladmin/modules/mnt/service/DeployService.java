@@ -52,7 +52,7 @@ public interface DeployService {
      * @param id /
      * @return /
      */
-    DeployDto findById(Long id);
+    DeployDto findById(String id);
 
     /**
      * 创建
@@ -71,14 +71,14 @@ public interface DeployService {
      * 删除
      * @param ids /
      */
-    void delete(Set<Long> ids);
+    void delete(Set<String> ids);
 
 	/**
 	 * 部署文件到服务器
 	 * @param fileSavePath 文件路径
 	 * @param appId 应用ID
      */
-	void deploy(String fileSavePath, Long appId);
+	void deploy(String fileSavePath, String appId);
 
     /**
      * 查询部署状态

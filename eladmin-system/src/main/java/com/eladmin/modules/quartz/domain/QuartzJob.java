@@ -36,11 +36,11 @@ public class QuartzJob extends BaseEntity implements Serializable {
 
     public static final String JOB_KEY = "JOB_KEY";
 
-    @Id
-    @Column(name = "job_id")
-    @NotNull(groups = {Update.class})
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "job_id")
+//    @NotNull(groups = {Update.class})
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @Transient
     @ApiModelProperty(value = "用于子任务唯一标识", hidden = true)

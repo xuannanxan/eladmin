@@ -27,5 +27,5 @@ import java.io.Serializable;
 @Setter
 public class DictSmallDto implements Serializable {
 
-    private Long id;
+    private String id;
 }

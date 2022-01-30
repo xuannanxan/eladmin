@@ -58,7 +58,7 @@ public class ServerDeployServiceImpl implements ServerDeployService {
     }
 
     @Override
-    public ServerDeployDto findById(Long id) {
+    public ServerDeployDto findById(String id) {
         ServerDeploy server = serverDeployRepository.findById(id).orElseGet(ServerDeploy::new);
         ValidationUtil.isNull(server.getId(),"ServerDeploy","id",id);
         return serverDeployMapper.toDto(server);
@@ -102,8 +102,8 @@ public class ServerDeployServiceImpl implements ServerDeployService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             serverDeployRepository.deleteById(id);
         }
     }

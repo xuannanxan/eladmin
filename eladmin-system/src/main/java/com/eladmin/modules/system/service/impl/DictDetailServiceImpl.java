@@ -82,7 +82,7 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
+    public void delete(String id) {
         DictDetail dictDetail = dictDetailRepository.findById(id).orElseGet(DictDetail::new);
         // 清理缓存
         delCaches(dictDetail);

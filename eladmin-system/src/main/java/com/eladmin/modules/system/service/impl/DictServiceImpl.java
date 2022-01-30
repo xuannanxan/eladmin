@@ -80,7 +80,7 @@ public class DictServiceImpl implements DictService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
+    public void delete(Set<String> ids) {
         // 清理缓存
         List<Dict> dicts = dictRepository.findByIdIn(ids);
         for (Dict dict : dicts) {

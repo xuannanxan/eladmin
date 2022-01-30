@@ -36,7 +36,7 @@ public class DeptQueryCriteria{
     private Boolean enabled;
 
     @Query
-    private Long pid;
+    private String pid;
 
     @Query(type = Query.Type.IS_NULL, propName = "pid")
     private Boolean pidIsNull;

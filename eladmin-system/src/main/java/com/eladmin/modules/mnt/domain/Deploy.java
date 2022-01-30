@@ -35,11 +35,11 @@ import java.util.Set;
 @Table(name="mnt_deploy")
 public class Deploy extends BaseEntity implements Serializable {
 
-    @Id
-	@Column(name = "deploy_id")
-	@ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//	@Column(name = "deploy_id")
+//	@ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
 	@ManyToMany
 	@ApiModelProperty(name = "服务器", hidden = true)

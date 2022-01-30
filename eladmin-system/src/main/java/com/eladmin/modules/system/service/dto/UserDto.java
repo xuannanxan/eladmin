@@ -31,7 +31,7 @@ import java.util.Set;
 @Setter
 public class UserDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Set<RoleSmallDto> roles;
 

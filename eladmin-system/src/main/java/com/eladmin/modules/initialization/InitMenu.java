@@ -27,7 +27,7 @@ public class InitMenu {
     @PostConstruct
     public void InitialMenu() throws Exception {
         //获取一级菜单
-        List<MenuDto> menus =  menuService.getMenus(0L);
+        List<MenuDto> menus =  menuService.getMenus("");
         //如果没有一级菜单就开始进行初始化
         if(menus.size() == 0){
             log.info("没有菜单，开始进行初始化");

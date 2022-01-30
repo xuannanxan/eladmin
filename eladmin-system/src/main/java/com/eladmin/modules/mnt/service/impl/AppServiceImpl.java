@@ -58,7 +58,7 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public AppDto findById(Long id) {
+    public AppDto findById(String id) {
 		App app = appRepository.findById(id).orElseGet(App::new);
         ValidationUtil.isNull(app.getId(),"App","id",id);
         return appMapper.toDto(app);
@@ -97,8 +97,8 @@ public class AppServiceImpl implements AppService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             appRepository.deleteById(id);
         }
     }

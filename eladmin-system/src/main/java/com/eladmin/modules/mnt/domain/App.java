@@ -34,11 +34,11 @@ import java.io.Serializable;
 @Table(name="mnt_app")
 public class App extends BaseEntity implements Serializable {
 
-    @Id
-	@Column(name = "app_id")
-	@ApiModelProperty(value = "ID", hidden = true)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//	@Column(name = "app_id")
+//	@ApiModelProperty(value = "ID", hidden = true)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
 	@ApiModelProperty(value = "名称")
     private String name;

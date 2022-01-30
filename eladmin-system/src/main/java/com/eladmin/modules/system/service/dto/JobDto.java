@@ -31,7 +31,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class JobDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Integer jobSort;
 

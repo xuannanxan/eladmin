@@ -38,12 +38,12 @@ import java.util.Set;
 @Table(name="sys_user")
 public class User extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "user_id")
-    @NotNull(groups = Update.class)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "ID", hidden = true)
-    private Long id;
+//    @Id
+//    @Column(name = "user_id")
+//    @NotNull(groups = Update.class)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @ApiModelProperty(value = "用户角色")
@@ -115,12 +115,12 @@ public class User extends BaseEntity implements Serializable {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
+        return Objects.equals(getId(), user.getId()) &&
                 Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username);
+        return Objects.hash(getId(), username);
     }
 }

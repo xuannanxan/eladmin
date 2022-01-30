@@ -20,13 +20,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -40,7 +41,15 @@ import java.sql.Timestamp;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class BaseEntity implements Serializable {
+
+    @Id
+    @Column(name = "id",length = 32)
+    @NotNull(groups = Update.class)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "jpa-uuid")
+    @ApiModelProperty(value = "ID", hidden = true)
+    private String id;
 
     @CreatedBy
     @Column(name = "create_by", updatable = false)
@@ -81,5 +90,9 @@ public class BaseEntity implements Serializable {
             builder.append("toString builder encounter an error");
         }
         return builder.toString();
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -80,7 +80,7 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public DeployDto findById(Long id) {
+	public DeployDto findById(String id) {
 		Deploy deploy = deployRepository.findById(id).orElseGet(Deploy::new);
 		ValidationUtil.isNull(deploy.getId(), "Deploy", "id", id);
 		return deployMapper.toDto(deploy);
@@ -103,14 +103,14 @@ public class DeployServiceImpl implements DeployService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void delete(Set<Long> ids) {
-		for (Long id : ids) {
+	public void delete(Set<String> ids) {
+		for (String id : ids) {
 			deployRepository.deleteById(id);
 		}
 	}
 
 	@Override
-	public void deploy(String fileSavePath, Long id) {
+	public void deploy(String fileSavePath, String id) {
 		deployApp(fileSavePath, id);
 	}
 
@@ -118,7 +118,7 @@ public class DeployServiceImpl implements DeployService {
 	 * @param fileSavePath 本机路径
 	 * @param id ID
 	 */
-	private void deployApp(String fileSavePath, Long id) {
+	private void deployApp(String fileSavePath, String id) {
 
 		DeployDto deploy = findById(id);
 		if (deploy == null) {
@@ -192,7 +192,7 @@ public class DeployServiceImpl implements DeployService {
 		}
 	}
 
-	private void backupApp(ExecuteShellUtil executeShellUtil, String ip, String fileSavePath, String appName, String backupPath, Long id) {
+	private void backupApp(ExecuteShellUtil executeShellUtil, String ip, String fileSavePath, String appName, String backupPath, String id) {
 		String deployDate = DateUtil.format(new Date(), DatePattern.PURE_DATETIME_PATTERN);
 		StringBuilder sb = new StringBuilder();
 		backupPath += appName + FILE_SEPARATOR + deployDate + "\n";
@@ -339,7 +339,7 @@ public class DeployServiceImpl implements DeployService {
 
 	@Override
 	public String serverReduction(DeployHistory resources) {
-		Long deployId = resources.getDeployId();
+		String deployId = resources.getDeployId();
 		Deploy deployInfo = deployRepository.findById(deployId).orElseGet(Deploy::new);
 		String deployDate = DateUtil.format(resources.getDeployDate(), DatePattern.PURE_DATETIME_PATTERN);
 		App app = deployInfo.getApp();

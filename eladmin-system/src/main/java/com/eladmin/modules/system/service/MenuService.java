@@ -44,7 +44,7 @@ public interface MenuService {
      * @param id /
      * @return /
      */
-    MenuDto findById(long id);
+    MenuDto findById(String id);
 
     /**
      * 创建
@@ -85,7 +85,7 @@ public interface MenuService {
      * @param id /
      * @return /
      */
-    Menu findOne(Long id);
+    Menu findOne(String id);
 
     /**
      * 删除
@@ -106,7 +106,7 @@ public interface MenuService {
      * @param pid /
      * @return /
      */
-    List<MenuDto> getMenus(Long pid);
+    List<MenuDto> getMenus(String pid);
 
     /**
      * 根据ID获取同级与上级数据
@@ -121,5 +121,5 @@ public interface MenuService {
      * @param currentUserId /
      * @return /
      */
-    List<MenuDto> findByUser(Long currentUserId);
+    List<MenuDto> findByUser(String currentUserId);
 }

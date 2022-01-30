@@ -29,7 +29,7 @@ import java.util.List;
 @Setter
 public class DictDto extends BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private List<DictDetailDto> dictDetails;
 

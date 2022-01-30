@@ -44,7 +44,7 @@ public interface DictDetailService {
      * 删除
      * @param id /
      */
-    void delete(Long id);
+    void delete(String id);
 
     /**
      * 分页查询
