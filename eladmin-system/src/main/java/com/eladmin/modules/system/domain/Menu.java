@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import com.eladmin.base.BaseEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,12 +36,14 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "sys_menu")
+@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class Menu extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "menu_id")
     @NotNull(groups = {Update.class})
     @ApiModelProperty(value = "ID", hidden = true)
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

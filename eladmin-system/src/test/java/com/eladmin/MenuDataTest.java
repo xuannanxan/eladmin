@@ -11,6 +11,7 @@ import com.eladmin.modules.system.service.dto.MenuDto;
 import com.eladmin.modules.system.service.dto.MenuQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class MenuDataTest {
-    @Autowired
-    private  MenuService menuService ;
+
+    private final MenuService menuService ;
     private static final Logger log = LoggerFactory.getLogger(InitManager.class);
     private static final String ENTITY_NAME = "menu";
 
