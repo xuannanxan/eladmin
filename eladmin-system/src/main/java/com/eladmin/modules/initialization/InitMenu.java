@@ -8,7 +8,6 @@ import com.eladmin.modules.system.domain.Menu;
 import com.eladmin.modules.system.service.MenuService;
 import com.eladmin.jsonconfig.Config;
 import com.eladmin.modules.system.service.dto.MenuDto;
-import com.eladmin.tools.ObjectTools;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
