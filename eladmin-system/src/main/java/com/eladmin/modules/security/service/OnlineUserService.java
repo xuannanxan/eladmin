@@ -51,8 +51,9 @@ public class OnlineUserService {
      * @param token /
      * @param request /
      */
-    public void save(JwtUserDto jwtUserDto, String token, HttpServletRequest request){
-        String dept = jwtUserDto.getUser().getDept().getName();
+    public void save(JwtUserDto jwtUserDto, String token, HttpServletRequest request) throws Exception {
+        //如果是部门为空直接返回空字符串
+        String dept =jwtUserDto.getUser().getDept()!=null?jwtUserDto.getUser().getDept().getName():"";
         String ip = StringUtils.getIp(request);
         String browser = StringUtils.getBrowser(request);
         String address = StringUtils.getCityInfo(ip);
