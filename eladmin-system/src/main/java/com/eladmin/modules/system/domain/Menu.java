@@ -25,6 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,10 +47,12 @@ public class Menu extends BaseEntity implements Serializable {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
-    @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "menus")
-    @ApiModelProperty(value = "菜单角色")
-    private Set<Role> roles;
+//    @JSONField(serialize = false)
+//    @ManyToMany(mappedBy = "menus")
+//    @ApiModelProperty(value = "菜单角色")
+//    private Set<Role> roles;
+    @Transient
+    private List<Role> roles;
 
     @ApiModelProperty(value = "菜单标题")
     private String title;

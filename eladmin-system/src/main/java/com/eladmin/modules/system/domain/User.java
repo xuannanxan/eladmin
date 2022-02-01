@@ -25,6 +25,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="sys_user")
+@Table(name="sys_user",indexes = {@Index(columnList = "dept_id")})
 public class User extends BaseEntity implements Serializable {
 
 //    @Id
@@ -45,24 +46,31 @@ public class User extends BaseEntity implements Serializable {
 //    @ApiModelProperty(value = "ID", hidden = true)
 //    private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @ApiModelProperty(value = "用户角色")
-    @JoinTable(name = "sys_users_roles",
-            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "role_id")})
-    private Set<Role> roles;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @ApiModelProperty(value = "用户角色")
+//    @JoinTable(name = "sys_users_roles",
+//            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))})
+//    private Set<Role> roles;
+//
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @ApiModelProperty(value = "用户岗位")
+//    @JoinTable(name = "sys_users_jobs",
+//            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "job_id",referencedColumnName = "id")})
+//    private Set<Job> jobs;
+    @Transient
+    private List<Job> jobs;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @ApiModelProperty(value = "用户岗位")
-    @JoinTable(name = "sys_users_jobs",
-            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "job_id",referencedColumnName = "job_id")})
-    private Set<Job> jobs;
+    @Transient
+    private List<Role> roles;
 
-    @OneToOne
-    @JoinColumn(name = "dept_id")
-    @ApiModelProperty(value = "用户部门")
+    @Transient
     private Dept dept;
+
+    @Column(name = "dept_id")
+    @ApiModelProperty(value = "用户部门")
+    private Dept deptId;
 
     @NotBlank
     @Column(name = "username", columnDefinition = "varchar(20) unique comment '用户名称'")

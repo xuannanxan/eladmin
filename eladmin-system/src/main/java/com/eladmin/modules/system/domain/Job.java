@@ -23,6 +23,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -41,6 +42,9 @@ public class Job extends BaseEntity implements Serializable {
 //    @ApiModelProperty(value = "ID", hidden = true)
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
+
+    @Transient
+    private List<User> users;
 
     @NotBlank
     @ApiModelProperty(value = "岗位名称")

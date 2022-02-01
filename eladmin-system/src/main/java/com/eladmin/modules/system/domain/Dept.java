@@ -44,10 +44,10 @@ public class Dept extends BaseEntity implements Serializable {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
-    @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "depts")
-    @ApiModelProperty(value = "角色")
-    private Set<Role> roles;
+//    @JSONField(serialize = false)
+//    @ManyToMany(mappedBy = "depts")
+//    @ApiModelProperty(value = "角色")
+//    private Set<Role> roles;
 
     @ApiModelProperty(value = "排序")
     private Integer deptSort;

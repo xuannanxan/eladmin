@@ -76,7 +76,7 @@ public interface RoleService {
      * @param roles /
      * @return /
      */
-    Integer findByRoles(Set<Role> roles);
+    Integer findByRoles(List<Role> roles);
 
     /**
      * 修改绑定的菜单

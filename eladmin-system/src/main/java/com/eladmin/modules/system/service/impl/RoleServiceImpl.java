@@ -114,7 +114,7 @@ public class RoleServiceImpl implements RoleService {
         role.setName(resources.getName());
         role.setDescription(resources.getDescription());
         role.setDataScope(resources.getDataScope());
-        role.setDepts(resources.getDepts());
+        //role.setDepts(resources.getDepts());
         role.setLevel(resources.getLevel());
         roleRepository.save(role);
         // 更新相关缓存
@@ -154,7 +154,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Integer findByRoles(Set<Role> roles) {
+    public Integer findByRoles(List<Role> roles) {
         if (roles.size() == 0) {
             return Integer.MAX_VALUE;
         }

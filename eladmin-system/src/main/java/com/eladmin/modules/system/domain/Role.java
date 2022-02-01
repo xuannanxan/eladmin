@@ -26,6 +26,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -47,24 +48,33 @@ public class Role extends BaseEntity implements Serializable {
 //    @ApiModelProperty(value = "ID", hidden = true)
 //    private Long id;
 
-    @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "roles")
-    @ApiModelProperty(value = "用户", hidden = true)
-    private Set<User> users;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "sys_roles_menus",
-            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "menu_id",referencedColumnName = "menu_id")})
-    @ApiModelProperty(value = "菜单", hidden = true)
-    private Set<Menu> menus;
+//    @JSONField(serialize = false)
+//    @ManyToMany(mappedBy = "roles")
+//    @ApiModelProperty(value = "用户", hidden = true)
+//    private Set<User> users;
 
-    @ManyToMany
-    @JoinTable(name = "sys_roles_depts",
-            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "dept_id")})
-    @ApiModelProperty(value = "部门", hidden = true)
-    private Set<Dept> depts;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "sys_roles_menus",
+//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "menu_id",referencedColumnName = "id")})
+//    @ApiModelProperty(value = "菜单", hidden = true)
+//    private Set<Menu> menus;
+    @Transient
+    private List<User> users;
+
+    @Transient
+    private List<Menu> menus;
+
+    @Transient
+    private List<Dept> depts;
+
+//    @ManyToMany
+//    @JoinTable(name = "sys_roles_depts",
+//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
+//            inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))})
+//    @ApiModelProperty(value = "部门", hidden = true)
+//    private Set<Dept> depts;
 
     @NotBlank
     @ApiModelProperty(value = "名称", hidden = true)
