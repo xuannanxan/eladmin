@@ -2,10 +2,13 @@ package com.eladmin.jsonconfig;
 
 
 import com.eladmin.annotation.FieldDescribe;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 
+@Getter
+@Setter
 public class DataSources {
-
 
     public static final String DEFAULT_DRIVERCLASSNAME = "net.sf.log4jdbc.sql.jdbcapi.DriverSpy";
     public static final String DEFAULT_URL = "jdbc:log4jdbc:mysql://localhost:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false";
@@ -50,79 +53,50 @@ public class DataSources {
     @FieldDescribe("驱动名称")
     private String driverClassName;
 
-    public String getDriverClassName() { return this.driverClassName; }
-    public void  setDriverClassName(String driverClassName) {  this.driverClassName = driverClassName; }
 
     @FieldDescribe("数据库链接字符串")
     private String url;
-    public String getUrl() { return this.url; }
-    public void  setUrl(String url) {  this.url = url; }
 
     @FieldDescribe("用户名")
     private String username;
-    public String getUsername() { return this.username; }
-    public void  setUsername(String username) {  this.username = username; }
 
     @FieldDescribe("密码")
     private String password;
-    public String getPassword() { return this.password; }
-    public void  setPassword(String password) {  this.password = password; }
 
     @FieldDescribe("初始连接数")
     private Integer initSize;
-    public Integer getInitSize() { return this.initSize; }
-    public void  setInitSize(Integer initSize) {  this.initSize = initSize; }
+
 
     @FieldDescribe("最小连接数")
     private Integer minIdle;
-    public Integer getMinIdle() { return this.minIdle; }
-    public void  setMinIdle(Integer minIdle) {  this.minIdle = minIdle; }
 
     @FieldDescribe("最大连接数")
     private Integer maxAct;
-    public Integer getMaxAct() { return this.maxAct; }
-    public void  setMaxAct(Integer maxAct) {  this.maxAct = maxAct; }
+
 
     @FieldDescribe("获取连接超时时间")
     private Integer maxWait;
-    public Integer getMaxWait() { return this.maxWait; }
-    public void  setMaxWait(Integer maxWait) {  this.maxWait = maxWait; }
 
 
     @FieldDescribe("druid 地址")
     private String urlPattern;
-    public String getUrlPattern() { return this.urlPattern; }
-    public void  setUrlPattern(String urlPattern) {  this.urlPattern = urlPattern; }
 
     @FieldDescribe("druid 地址")
     private String allow;
-    public String getAllow() { return this.allow; }
-    public void  setAllow(String deny) {  this.allow = allow; }
 
     @FieldDescribe("druid 地址")
     private String deny;
-    public String getDeny() { return this.deny; }
-    public void  setDeny(String deny) {  this.deny = deny; }
 
     @FieldDescribe("druid 地址")
     private String druidUsername;
-    public String getDruidUsername() { return this.druidUsername; }
-    public void  setDruidUsername(String druidUsername) {  this.druidUsername = druidUsername; }
 
     @FieldDescribe("druid 地址")
     private String druidPassword;
-    public String getDruidPassword() { return this.druidPassword; }
-    public void  setDruidPassword(String druidPassword) {  this.druidPassword = druidPassword; }
 
     @FieldDescribe("配置监控统计")
     private Boolean resetEnable;
-    public Boolean getResetEnable() {
-        return BooleanUtils.isTrue(this.resetEnable);
-    }
-    public void setResetEnable(Boolean resetEnable) {this.resetEnable = resetEnable;}
 
     @FieldDescribe("超时时间(以秒数为单位)")
     private Integer slowSqlMillis;
-    public Integer getSlowSqlMillis() { return this.slowSqlMillis; }
-    public void  setSlowSqlMillis(Integer slowSqlMillis) {  this.slowSqlMillis = slowSqlMillis; }
+
 }

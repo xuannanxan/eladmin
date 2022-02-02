@@ -47,8 +47,8 @@ public class BaseEntity implements Serializable {
     @Id
     @Column(name = "id",length = 32)
     @NotNull(groups = Update.class)
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "jpa-uuid")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "jpa-uuid")
+    @ApiModelProperty(value = "ID")
     private String id;
 
     @CreatedBy

@@ -35,11 +35,11 @@ import java.util.Objects;
 @Table(name="mnt_server")
 public class ServerDeploy extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "server_id")
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+//    @Id
+//    @Column(name = "server_id")
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private String id;
 
     @ApiModelProperty(value = "服务器名称")
     private String name;
@@ -69,12 +69,12 @@ public class ServerDeploy extends BaseEntity implements Serializable {
             return false;
         }
         ServerDeploy that = (ServerDeploy) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(getId(), name);
     }
 }

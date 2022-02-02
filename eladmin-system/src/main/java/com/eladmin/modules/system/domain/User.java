@@ -70,7 +70,7 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(name = "dept_id")
     @ApiModelProperty(value = "用户部门")
-    private Dept deptId;
+    private String deptId;
 
     @NotBlank
     @Column(name = "username", columnDefinition = "varchar(20) unique comment '用户名称'")

@@ -15,6 +15,7 @@
  */
 package com.eladmin.modules.quartz.domain;
 
+import com.eladmin.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,13 +30,13 @@ import java.sql.Timestamp;
 @Entity
 @Data
 @Table(name = "sys_quartz_log")
-public class QuartzLog implements Serializable {
+public class QuartzLog extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "log_id")
-    @ApiModelProperty(value = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @Column(name = "log_id")
+//    @ApiModelProperty(value = "ID", hidden = true)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @ApiModelProperty(value = "任务名称", hidden = true)
     private String jobName;

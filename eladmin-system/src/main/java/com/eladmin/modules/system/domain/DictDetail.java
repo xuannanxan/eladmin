@@ -22,6 +22,7 @@ import com.eladmin.base.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
 * @author Zheng Jie
@@ -30,7 +31,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-@Table(name="sys_dict_detail")
+@Table(name="sys_dict_detail",indexes = {@Index(columnList = "dict_id")})
 public class DictDetail extends BaseEntity implements Serializable {
 
 //    @Id
@@ -40,10 +41,12 @@ public class DictDetail extends BaseEntity implements Serializable {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
-    @JoinColumn(name = "dict_id")
-    @ManyToOne(fetch=FetchType.LAZY)
-    @ApiModelProperty(value = "字典", hidden = true)
+    @Transient
     private Dict dict;
+
+    @Column(name = "dict_id")
+    @ApiModelProperty(value = "字典", hidden = true)
+    private String dictId;
 
     @ApiModelProperty(value = "字典标签")
     private String label;

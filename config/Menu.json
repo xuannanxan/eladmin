@@ -1,6 +1,6 @@
 {
   "columns": [
-    "menuId",
+    "id",
     "pid",
     "subCount",
     "type",

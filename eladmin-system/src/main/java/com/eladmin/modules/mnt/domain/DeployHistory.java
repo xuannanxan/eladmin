@@ -15,6 +15,7 @@
  */
 package com.eladmin.modules.mnt.domain;
 
+import com.eladmin.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -33,12 +34,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Table(name="mnt_deploy_history")
-public class DeployHistory implements Serializable {
+public class DeployHistory extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "history_id")
-	@ApiModelProperty(value = "ID", hidden = true)
-    private String id;
+//    @Id
+//    @Column(name = "history_id")
+//	@ApiModelProperty(value = "ID", hidden = true)
+//    private String id;
 
     @ApiModelProperty(value = "应用名称")
     private String appName;

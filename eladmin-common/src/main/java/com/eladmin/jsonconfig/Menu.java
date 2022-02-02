@@ -2,12 +2,16 @@ package com.eladmin.jsonconfig;
 
 import com.alibaba.fastjson.JSONArray;
 import com.eladmin.annotation.FieldDescribe;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class Menu {
 
     public static final JSONArray [] DEFAULT_MENU= new JSONArray[18];
@@ -24,13 +28,11 @@ public class Menu {
     }
     @FieldDescribe("菜单的列")
     private  String[] columns;
-    public String[] getColumns() {  return this.columns;}
-    public void setColumns(String[] columns) { this.columns = columns;}
+
 
     @FieldDescribe("初始菜单数据")
     private  JSONArray[] menu;
-    public JSONArray[] getMenu() {  return this.menu;}
-    public void setMenu(JSONArray[] menu) { this.menu = menu;}
+
 
 
 }

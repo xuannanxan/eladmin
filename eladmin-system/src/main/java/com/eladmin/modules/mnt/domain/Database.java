@@ -34,10 +34,10 @@ import java.io.Serializable;
 @Table(name="mnt_database")
 public class Database extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "db_id")
-	@ApiModelProperty(value = "ID", hidden = true)
-    private String id;
+//    @Id
+//    @Column(name = "db_id")
+//	@ApiModelProperty(value = "ID", hidden = true)
+//    private String id;
 
 	@ApiModelProperty(value = "数据库名称")
     private String name;

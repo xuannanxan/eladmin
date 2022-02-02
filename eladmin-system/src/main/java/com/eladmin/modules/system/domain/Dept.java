@@ -24,6 +24,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,6 +49,8 @@ public class Dept extends BaseEntity implements Serializable {
 //    @ManyToMany(mappedBy = "depts")
 //    @ApiModelProperty(value = "角色")
 //    private Set<Role> roles;
+    @Transient
+    private List<Role> roles;
 
     @ApiModelProperty(value = "排序")
     private Integer deptSort;

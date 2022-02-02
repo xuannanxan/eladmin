@@ -244,7 +244,7 @@ public class DeployServiceImpl implements DeployService {
 
 	@Override
 	public String serverStatus(Deploy resources) {
-		Set<ServerDeploy> serverDeploys = resources.getDeploys();
+		List<ServerDeploy> serverDeploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy serverDeploy : serverDeploys) {
 			StringBuilder sb = new StringBuilder();
@@ -276,7 +276,7 @@ public class DeployServiceImpl implements DeployService {
 	 */
 	@Override
 	public String startServer(Deploy resources) {
-		Set<ServerDeploy> deploys = resources.getDeploys();
+		List<ServerDeploy> deploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy deploy : deploys) {
 			StringBuilder sb = new StringBuilder();
@@ -313,7 +313,7 @@ public class DeployServiceImpl implements DeployService {
 	 */
 	@Override
 	public String stopServer(Deploy resources) {
-		Set<ServerDeploy> deploys = resources.getDeploys();
+		List<ServerDeploy> deploys = resources.getDeploys();
 		App app = resources.getApp();
 		for (ServerDeploy deploy : deploys) {
 			StringBuilder sb = new StringBuilder();
