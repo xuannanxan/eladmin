@@ -15,7 +15,7 @@ import java.util.Objects;
 public class Menu {
 
     public static final JSONArray [] DEFAULT_MENU= new JSONArray[18];
-    public static final String [] DEFAULT_COLUMNS= new String[18];
+    public static final String [] DEFAULT_COLUMNS= new String[20];
 
     public static Menu defaultInstance() {
         Menu o = new Menu();

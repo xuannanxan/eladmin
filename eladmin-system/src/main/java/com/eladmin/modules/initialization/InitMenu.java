@@ -8,6 +8,7 @@ import com.eladmin.modules.system.domain.Menu;
 import com.eladmin.modules.system.service.MenuService;
 import com.eladmin.jsonconfig.Config;
 import com.eladmin.modules.system.service.dto.MenuDto;
+import com.eladmin.modules.system.service.dto.MenuQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,31 +26,47 @@ public class InitMenu {
     private static final String ENTITY_NAME = "menu";
 
     @PostConstruct
-    public void InitialMenu() throws Exception {
-        //获取一级菜单
-        List<MenuDto> menus =  menuService.getMenus("");
-        //如果没有一级菜单就开始进行初始化
-        if(menus.size() == 0){
-            log.info("没有菜单，开始进行初始化");
-            JSONArray[] menu = Config.menu().getMenu();
-            String[] columns = Config.menu().getColumns();
-            for(int i=0;i<menu.length;i++)
-            {
-                Map<String,Object> map = new HashMap<>();
-                for(int j=0;j<menu[i].size();j++){
-                    if(menu[i].get(j)!=""){
-                        map.put(columns[j],menu[i].get(j).toString());
-                    }
+    public void SetInitialMenu() throws Exception {
+        JSONArray[] menu = Config.menu().getMenu();
+        InitialMenu(menu,"0");
+    }
+    private void InitialMenu(JSONArray[] menu ,String pid ) throws Exception {
+        String[] columns = Config.menu().getColumns();
+
+        for (JSONArray item : menu) {
+            Map<String,Object> map = new HashMap<>();
+            for (int j = 0; j < item.size(); j++) {
+                if ((!columns[j].equals("id") )||( !columns[j].equals("pid"))) {
+                    map.put(columns[j], item.get(j).toString());
                 }
-                Menu resources =  JSON.toJavaObject(new JSONObject(map), Menu.class);
-                System.out.print(resources.toString());
-                if (resources.getId() != null) {
-                    throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
-                }
-                menuService.create(resources);
             }
+            //根据菜单名称和地址进行查询，不存在就进行新增
+            MenuQueryCriteria criteria  = new MenuQueryCriteria();
+            criteria.setBlurry(map.get("title").toString());
+            List<MenuDto> result = menuService.queryAll(criteria,true);
+            if(result.size()==0){
+                map.put("pid",pid);
+                Menu resources =  JSON.toJavaObject(new JSONObject(map), Menu.class);
+                menuService.create(resources);
+                result = menuService.queryAll(criteria,true);
+            }
+
+            //子菜单或按钮
+            if (map.get("children")!= null){
+                JSONArray jsonArray  = JSON.parseArray(map.get("children").toString());
+                if(jsonArray.size()>0){
+                    JSONArray[] childArray = new  JSONArray[jsonArray.size()];
+                    for(int i=0;i<jsonArray.size();i++){
+                        childArray[i]=JSON.parseArray(jsonArray.get(i).toString());
+                    }
+                    InitialMenu(childArray,result.get(0).getId());
+                }
+
+            }
+
         }
-
-
+//
+//
+//
     }
 }

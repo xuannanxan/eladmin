@@ -88,6 +88,6 @@ public interface MenuRepository extends JpaRepository<Menu, String>, JpaSpecific
      * @param menuId /
      */
     @Modifying
-    @Query(value = " update sys_menu set sub_count = ?1 where menu_id = ?2 ",nativeQuery = true)
+    @Query(value = " update sys_menu set sub_count = ?1 where id = ?2 ",nativeQuery = true)
     void updateSubCntById(int count, String menuId);
 }
