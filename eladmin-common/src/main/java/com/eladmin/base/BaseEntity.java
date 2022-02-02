@@ -41,13 +41,13 @@ import java.sql.Timestamp;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class BaseEntity implements Serializable {
 
     @Id
     @Column(name = "id",length = 32)
     @NotNull(groups = Update.class)
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "jpa-uuid")
+    @GeneratedValue(generator = "myIdStrategy")
+    @GenericGenerator(name = "myIdStrategy", strategy = "uuid")
     @ApiModelProperty(value = "ID")
     private String id;
 
