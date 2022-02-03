@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import com.eladmin.modules.system.domain.Dict;
 import com.eladmin.modules.system.domain.DictDetail;
 import com.eladmin.modules.system.service.dto.DictDetailQueryCriteria;
-import com.eladmin.utils.*;
 import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.dto.DictDetailDto;
 import org.springframework.cache.annotation.CacheConfig;
@@ -76,9 +75,16 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     @Cacheable(key = "'name:' + #p0")
-    public List<DictDetailDto> getDictByName(String name) {
+    public List<DictDetailDto> getByDictName(String name) {
         return dictDetailMapper.toDto(dictDetailRepository.findByDictName(name));
     }
+
+    @Override
+    public Map<String,Object> getByDictNameWithPage(String dictName, Pageable pageable) {
+        Page<DictDetail> page = dictDetailRepository.findByDictNameWithPage(dictName,pageable);
+        return PageUtil.toPage(page.map(dictDetailMapper::toDto));
+    }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -88,6 +94,7 @@ public class DictDetailServiceImpl implements DictDetailService {
         delCaches(dictDetail);
         dictDetailRepository.deleteById(id);
     }
+
 
     public void delCaches(DictDetail dictDetail){
         Dict dict = dictRepository.findById(dictDetail.getDict().getId()).orElseGet(Dict::new);

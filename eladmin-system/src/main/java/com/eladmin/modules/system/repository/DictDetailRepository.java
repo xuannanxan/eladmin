@@ -16,11 +16,11 @@
 package com.eladmin.modules.system.repository;
 
 import com.eladmin.modules.system.domain.DictDetail;
-import com.eladmin.modules.system.domain.Role;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 
 /**
@@ -34,7 +34,17 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
      * @param name /
      * @return /
      */
-    @Query(value = "select dd.*  from sys_dict_detail dd left join sys_dict d on d.id = dd.dict_id " +
-            "where  d.name = ?1 ",nativeQuery = true)
+    @Query(value = "select new DictDetail (dd.id,dd.dictId,dd.label,dd.value,dd.dictSort,d)  from DictDetail dd  join Dict d on d.id = dd.dictId" +
+            " where  d.name = ?1 ")
     List<DictDetail> findByDictName(String name);
+
+    /**
+     * 根据字典名称查询-分页
+     * @param name /
+     * @return /
+     */
+    @Query(value = "select new DictDetail (dd.id,dd.dictId,dd.label,dd.value,dd.dictSort,d)  from DictDetail dd  join Dict d on d.id = dd.dictId" +
+            " where  d.name = ?1 ")
+    Page<DictDetail> findByDictNameWithPage(String name, Pageable pageable);
+
 }

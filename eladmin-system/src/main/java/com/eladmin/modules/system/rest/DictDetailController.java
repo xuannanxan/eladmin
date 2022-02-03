@@ -53,7 +53,8 @@ public class DictDetailController {
     @GetMapping
     public ResponseEntity<Object> queryDictDetail(DictDetailQueryCriteria criteria,
                                                   @PageableDefault(sort = {"dictSort"}, direction = Sort.Direction.ASC) Pageable pageable){
-        return new ResponseEntity<>(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
+        System.out.println(dictDetailService.getByDictNameWithPage(criteria.getDictName(),pageable).toString());
+        return new ResponseEntity<>(dictDetailService.getByDictNameWithPage(criteria.getDictName(),pageable),HttpStatus.OK);
     }
 
     @ApiOperation("查询多个字典详情")
@@ -62,7 +63,7 @@ public class DictDetailController {
         String[] names = dictName.split("[,，]");
         Map<String, List<DictDetailDto>> dictMap = new HashMap<>(16);
         for (String name : names) {
-            dictMap.put(name, dictDetailService.getDictByName(name));
+            dictMap.put(name, dictDetailService.getByDictName(name));
         }
         return new ResponseEntity<>(dictMap, HttpStatus.OK);
     }
@@ -74,6 +75,11 @@ public class DictDetailController {
     public ResponseEntity<Object> createDictDetail(@Validated @RequestBody DictDetail resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
+        }
+        if (resources.getDict() != null && resources.getDict().getId().length()>0) {
+            resources.setDictId(resources.getDict().getId());
+        }else{
+            throw new BadRequestException( ENTITY_NAME +"字典详情没有归属的字典");
         }
         dictDetailService.create(resources);
         return new ResponseEntity<>(HttpStatus.CREATED);

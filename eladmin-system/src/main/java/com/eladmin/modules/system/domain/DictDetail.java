@@ -34,15 +34,6 @@ import java.util.List;
 @Table(name="sys_dict_detail",indexes = {@Index(columnList = "dict_id")})
 public class DictDetail extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "detail_id")
-//    @NotNull(groups = Update.class)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-    @Transient
-    private Dict dict;
 
     @Column(name = "dict_id")
     @ApiModelProperty(value = "字典", hidden = true)
@@ -56,4 +47,21 @@ public class DictDetail extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "排序")
     private Integer dictSort = 999;
+
+    @Transient
+    private Dict dict;
+
+    public DictDetail(String id,String dictId,String label,String value,Integer dictSort,Dict dict) {
+        this.setDictId(id);
+        this.dictId = dictId;
+        this.label = label;
+        this.value = value;
+        this.dictSort = dictSort;
+        this.dict = dict;
+    }
+
+
+    public DictDetail() {
+
+    }
 }

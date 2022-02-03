@@ -55,9 +55,17 @@ public interface DictDetailService {
     Map<String,Object> queryAll(DictDetailQueryCriteria criteria, Pageable pageable);
 
     /**
+     * 根据dictName进行分页查询
+     * @param dictName dictName
+     * @param pageable 分页参数
+     * @return /
+     */
+    Map<String,Object> getByDictNameWithPage(String dictName, Pageable pageable);
+
+    /**
      * 根据字典名称获取字典详情
      * @param name 字典名称
      * @return /
      */
-    List<DictDetailDto> getDictByName(String name);
+    List<DictDetailDto> getByDictName(String name);
 }
