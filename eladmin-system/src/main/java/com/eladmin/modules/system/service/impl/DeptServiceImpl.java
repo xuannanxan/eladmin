@@ -276,9 +276,12 @@ public class DeptServiceImpl implements DeptService {
      * @param id /
      */
     public void delCaches(String id){
-        List<User> users = userRepository.findByRoleDeptId(id);
-        // 删除数据权限
-        redisUtils.delByKeys(CacheKey.DATA_USER, users.stream().map(User::getId).collect(Collectors.toSet()));
-        redisUtils.del(CacheKey.DEPT_ID + id);
+        //如果是顶级菜单不处理
+        if (null != id){
+            List<User> users = userRepository.findByRoleDeptId(id);
+            // 删除数据权限
+            redisUtils.delByKeys(CacheKey.DATA_USER, users.stream().map(User::getId).collect(Collectors.toSet()));
+            redisUtils.del(CacheKey.DEPT_ID + id);
+        }
     }
 }

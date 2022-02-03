@@ -66,7 +66,7 @@ public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecific
      * @return /
      */
     @Query(value = "select count(1) from sys_role r, sys_roles_depts d where " +
-            "r.role_id = d.role_id and d.dept_id in ?1",nativeQuery = true)
+            "r.id = d.role_id and d.dept_id in ?1",nativeQuery = true)
     int countByDepts(Set<String> deptIds);
 
     /**
@@ -75,6 +75,6 @@ public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT r.* FROM sys_role r, sys_roles_menus m WHERE " +
-            "r.role_id = m.role_id AND m.menu_id in ?1",nativeQuery = true)
+            "r.id = m.role_id AND m.menu_id in ?1",nativeQuery = true)
     List<Role> findInMenuId(List<String> menuIds);
 }

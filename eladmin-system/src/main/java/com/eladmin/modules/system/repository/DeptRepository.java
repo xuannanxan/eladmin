@@ -48,7 +48,7 @@ public interface DeptRepository extends JpaRepository<Dept, String>, JpaSpecific
      * @return /
      */
     @Query(value = "select d.* from sys_dept d, sys_roles_depts r where " +
-            "d.dept_id = r.dept_id and r.role_id = ?1", nativeQuery = true)
+            "d.id = r.dept_id and r.role_id = ?1", nativeQuery = true)
     Set<Dept> findByRoleId(String roleId);
 
     /**
@@ -64,6 +64,6 @@ public interface DeptRepository extends JpaRepository<Dept, String>, JpaSpecific
      * @param id /
      */
     @Modifying
-    @Query(value = " update sys_dept set sub_count = ?1 where dept_id = ?2 ",nativeQuery = true)
+    @Query(value = " update sys_dept set sub_count = ?1 where id = ?2 ",nativeQuery = true)
     void updateSubCntById(Integer count, String id);
 }

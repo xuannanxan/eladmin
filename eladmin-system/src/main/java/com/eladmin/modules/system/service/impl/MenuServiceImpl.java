@@ -232,7 +232,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDto> getSuperior(MenuDto menuDto, List<Menu> menus) {
-        if(menuDto.getPid() == null){
+        if(menuDto.getPid() == null|| menuDto.getPid().equals("0")){
             menus.addAll(menuRepository.findByPidIsNull());
             return menuMapper.toDto(menus);
         }
@@ -245,7 +245,7 @@ public class MenuServiceImpl implements MenuService {
         List<MenuDto> trees = new ArrayList<>();
         Set<String> ids = new HashSet<>();
         for (MenuDto menuDTO : menuDtos) {
-            if (menuDTO.getPid() == null) {
+            if (menuDTO.getPid() == null|| menuDTO.getPid().equals("0")) {
                 trees.add(menuDTO);
             }
             for (MenuDto it : menuDtos) {
@@ -273,11 +273,11 @@ public class MenuServiceImpl implements MenuService {
                         MenuVo menuVo = new MenuVo();
                         menuVo.setName(ObjectUtil.isNotEmpty(menuDTO.getComponentName())  ? menuDTO.getComponentName() : menuDTO.getTitle());
                         // 一级目录需要加斜杠，不然会报警告
-                        menuVo.setPath(menuDTO.getPid() == null ? "/" + menuDTO.getPath() :menuDTO.getPath());
+                        menuVo.setPath((menuDTO.getPid() == null || menuDTO.getPid().equals("0"))? "/" + menuDTO.getPath() :menuDTO.getPath());
                         menuVo.setHidden(menuDTO.getHidden());
                         // 如果不是外链
                         if(!menuDTO.getIFrame()){
-                            if(menuDTO.getPid() == null){
+                            if(menuDTO.getPid() == null || menuDTO.getPid().equals("0")){
                                 menuVo.setComponent(StringUtils.isEmpty(menuDTO.getComponent())?"Layout":menuDTO.getComponent());
                                 // 如果不是一级菜单，并且菜单类型为目录，则代表是多级菜单
                             }else if(menuDTO.getType() == 0){
@@ -292,7 +292,7 @@ public class MenuServiceImpl implements MenuService {
                             menuVo.setRedirect("noredirect");
                             menuVo.setChildren(buildMenus(menuDtoList));
                             // 处理是一级菜单并且没有子菜单的情况
-                        } else if(menuDTO.getPid() == null){
+                        } else if(menuDTO.getPid() == null|| menuDTO.getPid().equals("0")){
                             MenuVo menuVo1 = new MenuVo();
                             menuVo1.setMeta(menuVo.getMeta());
                             // 非外链

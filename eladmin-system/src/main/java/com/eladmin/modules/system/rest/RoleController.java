@@ -145,10 +145,10 @@ public class RoleController {
      * @return /
      */
     private int getLevels(Integer level){
-        //如果是超级管理员，返回角色级别为999
+        //如果是超级管理员，返回角色级别为0,数字越小权限越大
         try {
             if((userRepository.findById(SecurityUtils.getCurrentUserId()).orElseGet(User::new)).getUsername().equals(Config.token().getManager())){
-                return 999999;
+                return 1;
             }
         } catch (Exception e) {
             e.printStackTrace();

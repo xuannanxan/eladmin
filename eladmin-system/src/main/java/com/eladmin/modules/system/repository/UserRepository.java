@@ -85,7 +85,7 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT u.* FROM sys_user u, sys_users_roles r, sys_roles_depts d WHERE " +
-            "u.user_id = r.user_id AND r.role_id = d.role_id AND d.dept_id = ?1 group by u.user_id", nativeQuery = true)
+            "u.id = r.user_id AND r.role_id = d.role_id AND d.dept_id = ?1 group by u.id", nativeQuery = true)
     List<User> findByRoleDeptId(String deptId);
 
     /**
@@ -94,7 +94,7 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT u.* FROM sys_user u, sys_users_roles ur, sys_roles_menus rm WHERE\n" +
-            "u.user_id = ur.user_id AND ur.role_id = rm.role_id AND rm.menu_id = ?1 group by u.user_id", nativeQuery = true)
+            "u.id = ur.user_id AND ur.role_id = rm.role_id AND rm.menu_id = ?1 group by u.id", nativeQuery = true)
     List<User> findByMenuId(String id);
 
     /**
@@ -108,7 +108,7 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
      * @param ids /
      * @return /
      */
-    @Query(value = "SELECT count(1) FROM sys_user u, sys_users_jobs j WHERE u.user_id = j.user_id AND j.job_id IN ?1", nativeQuery = true)
+    @Query(value = "SELECT count(1) FROM sys_user u, sys_users_jobs j WHERE u.id = j.user_id AND j.job_id IN ?1", nativeQuery = true)
     int countByJobs(Set<String> ids);
 
     /**
@@ -125,6 +125,6 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT count(1) FROM sys_user u, sys_users_roles r WHERE " +
-            "u.user_id = r.user_id AND r.role_id in ?1", nativeQuery = true)
+            "u.id = r.user_id AND r.role_id in ?1", nativeQuery = true)
     int countByRoles(Set<String> ids);
 }
