@@ -92,7 +92,4 @@ public class BaseEntity implements Serializable {
         return builder.toString();
     }
 
-    public String getId() {
-        return id;
-    }
 }
