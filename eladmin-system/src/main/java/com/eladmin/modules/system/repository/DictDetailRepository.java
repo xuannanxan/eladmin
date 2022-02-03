@@ -16,8 +16,10 @@
 package com.eladmin.modules.system.repository;
 
 import com.eladmin.modules.system.domain.DictDetail;
+import com.eladmin.modules.system.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -32,5 +34,7 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
      * @param name /
      * @return /
      */
+    @Query(value = "select dd.*  from sys_dict_detail dd left join sys_dict d on d.id = dd.dict_id " +
+            "where  d.name = ?1 ",nativeQuery = true)
     List<DictDetail> findByDictName(String name);
 }

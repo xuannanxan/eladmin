@@ -44,10 +44,10 @@ import java.sql.Timestamp;
 public class BaseEntity implements Serializable {
 
     @Id
-    @Column(name = "id",length = 32)
+    @Column(name = "id",length =  32)
     @NotNull(groups = Update.class)
-    @GeneratedValue(generator = "myIdStrategy")
-    @GenericGenerator(name = "myIdStrategy", strategy = "uuid")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid" )
     @ApiModelProperty(value = "ID")
     private String id;
 
