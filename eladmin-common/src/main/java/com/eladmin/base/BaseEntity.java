@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -44,10 +45,11 @@ import java.sql.Timestamp;
 public class BaseEntity implements Serializable {
 
     @Id
-    @Column(name = "id",length =  32)
+    @Column(name = "id",length =  36)
+    @Length(min=36, max=36)
     @NotNull(groups = Update.class)
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid" )
+    @GenericGenerator(name = "uuid2", strategy = "uuid2" )
     @ApiModelProperty(value = "ID")
     private String id;
 

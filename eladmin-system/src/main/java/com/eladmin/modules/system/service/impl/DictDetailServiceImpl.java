@@ -25,6 +25,7 @@ import com.eladmin.modules.system.domain.DictDetail;
 import com.eladmin.modules.system.service.dto.DictDetailQueryCriteria;
 import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.dto.DictDetailDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "dict")
 public class DictDetailServiceImpl implements DictDetailService {
+
 
     private final DictRepository dictRepository;
     private final DictDetailRepository dictDetailRepository;
@@ -97,6 +99,9 @@ public class DictDetailServiceImpl implements DictDetailService {
 
 
     public void delCaches(DictDetail dictDetail){
+        if(dictDetail.getDict() == null){
+            return;
+        }
         Dict dict = dictRepository.findById(dictDetail.getDict().getId()).orElseGet(Dict::new);
         redisUtils.del(CacheKey.DICT_NAME + dict.getName());
     }

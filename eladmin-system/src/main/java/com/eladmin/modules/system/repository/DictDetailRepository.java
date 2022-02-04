@@ -34,8 +34,8 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
      * @param name /
      * @return /
      */
-    @Query(value = "select new DictDetail (dd.id,dd.dictId,dd.label,dd.value,dd.dictSort,d)  from DictDetail dd  join Dict d on d.id = dd.dictId" +
-            " where  d.name = ?1 ")
+    @Query(value = "select dd.*  from sys_dict_detail dd  join sys_dict d on d.id = dd.dict_id" +
+            " where  d.name = ?1 ",nativeQuery = true)
     List<DictDetail> findByDictName(String name);
 
     /**
@@ -43,8 +43,8 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
      * @param name /
      * @return /
      */
-    @Query(value = "select new DictDetail (dd.id,dd.dictId,dd.label,dd.value,dd.dictSort,d)  from DictDetail dd  join Dict d on d.id = dd.dictId" +
-            " where  d.name = ?1 ")
+    @Query(value = "select dd.*  from sys_dict_detail dd  join sys_dict d on d.id = dd.dict_id" +
+            " where  d.name = ?1 ",nativeQuery = true)
     Page<DictDetail> findByDictNameWithPage(String name, Pageable pageable);
 
 }

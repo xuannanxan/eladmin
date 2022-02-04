@@ -35,10 +35,6 @@ import java.util.List;
 public class DictDetail extends BaseEntity implements Serializable {
 
 
-    @Column(name = "dict_id")
-    @ApiModelProperty(value = "字典", hidden = true)
-    private String dictId;
-
     @ApiModelProperty(value = "字典标签")
     private String label;
 
@@ -48,20 +44,8 @@ public class DictDetail extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer dictSort = 999;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(columnDefinition = "dict_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))
     private Dict dict;
 
-    public DictDetail(String id,String dictId,String label,String value,Integer dictSort,Dict dict) {
-        this.setId(id);
-        this.dictId = dictId;
-        this.label = label;
-        this.value = value;
-        this.dictSort = dictSort;
-        this.dict = dict;
-    }
-
-
-    public DictDetail() {
-
-    }
 }

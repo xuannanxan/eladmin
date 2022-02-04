@@ -53,8 +53,7 @@ public class DictDetailController {
     @GetMapping
     public ResponseEntity<Object> queryDictDetail(DictDetailQueryCriteria criteria,
                                                   @PageableDefault(sort = {"dictSort"}, direction = Sort.Direction.ASC) Pageable pageable){
-        System.out.println(dictDetailService.getByDictNameWithPage(criteria.getDictName(),pageable).toString());
-        return new ResponseEntity<>(dictDetailService.getByDictNameWithPage(criteria.getDictName(),pageable),HttpStatus.OK);
+        return new ResponseEntity<>(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
     @ApiOperation("查询多个字典详情")
@@ -77,7 +76,7 @@ public class DictDetailController {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
         if (resources.getDict() != null && resources.getDict().getId().length()>0) {
-            resources.setDictId(resources.getDict().getId());
+            resources.setDict(resources.getDict());
         }else{
             throw new BadRequestException( ENTITY_NAME +"字典详情没有归属的字典");
         }

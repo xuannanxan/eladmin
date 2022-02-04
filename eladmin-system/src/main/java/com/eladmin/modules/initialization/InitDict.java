@@ -5,12 +5,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.eladmin.jsonconfig.Config;
 import com.eladmin.modules.system.domain.Dict;
-import com.eladmin.modules.system.domain.Menu;
+import com.eladmin.modules.system.domain.DictDetail;
 import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.DictService;
+import com.eladmin.modules.system.service.dto.DictDetailDto;
 import com.eladmin.modules.system.service.dto.DictDto;
-import com.eladmin.modules.system.service.dto.MenuDto;
-import com.eladmin.modules.system.service.dto.MenuQueryCriteria;
+
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,12 +56,22 @@ public class InitDict {
                 map.put(columns[j], item.get(j).toString());
             }
             List<DictDto> result = dictService.findByName(map.get("dictName").toString());
-            System.out.println(result.toString());
-//            if(result.size()>0){
-//                Dict resources =  JSON.toJavaObject(new JSONObject(map), Dict.class);
-//                dictService.create(resources);
-//            }
+            boolean isNew = true;
+            if(result.size()>0){
+                map.put("dict",result.get(0));
+                if(result.get(0).getDictDetails().size()>0){
+                    for(DictDetailDto dd:result.get(0).getDictDetails()){
+                        if(dd.getLabel().equals(map.get("label"))){
+                            isNew = false;
+                        }
+                    }
+                }
+            }
+            if(isNew){
+                log.info("Dict:"+map.get("dictName").toString()+"/DictDetail:"+map.get("label").toString()+"不存在，开始进行初始化...");
+                DictDetail resources =  JSON.toJavaObject(new JSONObject(map), DictDetail.class);
+                dictDetailService.create(resources);
+            }
         }
-
     }
 }

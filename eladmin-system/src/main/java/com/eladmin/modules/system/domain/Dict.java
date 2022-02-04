@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import com.eladmin.base.BaseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.persistence.*;
@@ -38,12 +39,16 @@ import java.util.List;
 @Table(name="sys_dict")
 public class Dict extends BaseEntity implements Serializable {
 
-
     @NotBlank
     @ApiModelProperty(value = "名称")
     private String name;
 
     @ApiModelProperty(value = "描述")
     private String description;
+
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "dict")
+    @org.hibernate.annotations.ForeignKey(name = "none")
+    private List<DictDetail> dictDetails ;
 
 }
