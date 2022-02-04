@@ -47,6 +47,13 @@ public interface DictService {
     List<DictDto> queryAll(DictQueryCriteria dict);
 
     /**
+     * 根据名称查询
+     * @param dictName /
+     * @return /
+     */
+    List<DictDto> findByName(String dictName);
+
+    /**
      * 创建
      * @param resources /
      * @return /

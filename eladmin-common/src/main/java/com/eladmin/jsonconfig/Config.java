@@ -1,6 +1,5 @@
 package com.eladmin.jsonconfig;
 
-import com.alibaba.fastjson.JSON;
 import com.eladmin.tools.ConfigTools;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,7 @@ public class Config {
 
     public static final String  PATH_CONFIG_DATASOURCES = "config/DataSources.json";
     public static final String PATH_CONFIG_SERVER = "config/Server.json";
-    public static final String PATH_CONFIG_MENU = "config/Menu.json";
+    public static final String PATH_CONFIG_INITDATA = "config/InitData.json";
     public static final String PATH_VERSION = "version.txt";
     public static final String PATH_CONFIG_TOKEN = "config/token.json";
     public static final String PATH_CONFIG_PUBLICKEY = "config/public.key";
@@ -107,17 +106,17 @@ public class Config {
     }
 
 
-    private Menu menu;
+    private InitData initData;
 
-    public static synchronized Menu menu() throws Exception {
-        if (null == instance().menu) {
-            Menu o = ConfigTools.readConfigObject(PATH_CONFIG_MENU, Menu.class);
+    public static synchronized InitData initData() throws Exception {
+        if (null == instance().initData) {
+            InitData o = ConfigTools.readConfigObject(PATH_CONFIG_INITDATA, InitData.class);
             if (null == o) {
-                o = Menu.defaultInstance();
+                o = InitData.defaultInstance();
             }
-            instance().menu = o;
+            instance().initData = o;
         }
-        return instance().menu;
+        return instance().initData;
     }
 
 

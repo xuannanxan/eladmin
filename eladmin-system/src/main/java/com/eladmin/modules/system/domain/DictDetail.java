@@ -52,7 +52,7 @@ public class DictDetail extends BaseEntity implements Serializable {
     private Dict dict;
 
     public DictDetail(String id,String dictId,String label,String value,Integer dictSort,Dict dict) {
-        this.setDictId(id);
+        this.setId(id);
         this.dictId = dictId;
         this.label = label;
         this.value = value;

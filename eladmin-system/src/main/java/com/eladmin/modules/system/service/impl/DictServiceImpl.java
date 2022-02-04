@@ -60,6 +60,13 @@ public class DictServiceImpl implements DictService {
         return dictMapper.toDto(list);
     }
 
+
+    @Override
+    public List<DictDto> findByName(String dictName) {
+        List<Dict> list = dictRepository.findByName(dictName);
+        return dictMapper.toDto(list);
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Dict resources) {
@@ -93,17 +100,17 @@ public class DictServiceImpl implements DictService {
     public void download(List<DictDto> dictDtos, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (DictDto dictDTO : dictDtos) {
-            if(CollectionUtil.isNotEmpty(dictDTO.getDictDetails())){
-                for (DictDetailDto dictDetail : dictDTO.getDictDetails()) {
-                    Map<String,Object> map = new LinkedHashMap<>();
-                    map.put("字典名称", dictDTO.getName());
-                    map.put("字典描述", dictDTO.getDescription());
-                    map.put("字典标签", dictDetail.getLabel());
-                    map.put("字典值", dictDetail.getValue());
-                    map.put("创建日期", dictDetail.getCreateTime());
-                    list.add(map);
-                }
-            } else {
+//            if(CollectionUtil.isNotEmpty(dictDTO.getDictDetails())){
+//                for (DictDetailDto dictDetail : dictDTO.getDictDetails()) {
+//                    Map<String,Object> map = new LinkedHashMap<>();
+//                    map.put("字典名称", dictDTO.getName());
+//                    map.put("字典描述", dictDTO.getDescription());
+//                    map.put("字典标签", dictDetail.getLabel());
+//                    map.put("字典值", dictDetail.getValue());
+//                    map.put("创建日期", dictDetail.getCreateTime());
+//                    list.add(map);
+//                }
+//            } else {
                 Map<String,Object> map = new LinkedHashMap<>();
                 map.put("字典名称", dictDTO.getName());
                 map.put("字典描述", dictDTO.getDescription());
@@ -111,7 +118,7 @@ public class DictServiceImpl implements DictService {
                 map.put("字典值", null);
                 map.put("创建日期", dictDTO.getCreateTime());
                 list.add(map);
-            }
+//            }
         }
         FileUtil.downloadExcel(list, response);
     }

@@ -15,13 +15,16 @@
  */
 package com.eladmin.modules.system.domain;
 
+import com.eladmin.modules.system.repository.DictDetailRepository;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import com.eladmin.base.BaseEntity;
+
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,18 +38,6 @@ import java.util.List;
 @Table(name="sys_dict")
 public class Dict extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "dict_id")
-//    @NotNull(groups = Update.class)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-//    @OneToMany(mappedBy = "dict",cascade={CascadeType.PERSIST,CascadeType.REMOVE})
-//    private List<DictDetail> dictDetails;
-
-    @Transient
-    private List<DictDetail> dictDetails;
 
     @NotBlank
     @ApiModelProperty(value = "名称")
@@ -54,4 +45,5 @@ public class Dict extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "描述")
     private String description;
+
 }

@@ -35,8 +35,8 @@ public class MenuDataTest {
 
         if(null == menuService){
             log.info("没有菜单，开始进行初始化");
-            JSONArray[] menu = Config.menu().getMenu();
-            String[] columns = Config.menu().getColumns();
+            JSONArray[] menu = Config.initData().getMenuData();
+            String[] columns = Config.initData().getMenuColumn();
             for(int i=0;i<menu.length;i++)
             {
                 Map<String,Object> map = new HashMap<>();

@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 初始化菜单
+ * **/
+
 @RequiredArgsConstructor
 @Component
 public class InitMenu {
@@ -27,11 +31,11 @@ public class InitMenu {
 
     @PostConstruct
     public void SetInitialMenu() throws Exception {
-        JSONArray[] menu = Config.menu().getMenu();
+        JSONArray[] menu = Config.initData().getMenuData();
         InitialMenu(menu,"0");
     }
     private void InitialMenu(JSONArray[] menu ,String pid ) throws Exception {
-        String[] columns = Config.menu().getColumns();
+        String[] columns = Config.initData().getMenuColumn();
 
         for (JSONArray item : menu) {
             Map<String,Object> map = new HashMap<>();
@@ -45,6 +49,7 @@ public class InitMenu {
             criteria.setBlurry(map.get("title").toString());
             List<MenuDto> result = menuService.queryAll(criteria,true);
             if(result.size()==0){
+                log.info("Menu:"+map.get("title").toString()+"不存在，开始进行初始化...");
                 map.put("pid",pid);
                 Menu resources =  JSON.toJavaObject(new JSONObject(map), Menu.class);
                 menuService.create(resources);

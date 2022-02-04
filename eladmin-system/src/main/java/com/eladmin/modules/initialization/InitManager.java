@@ -23,7 +23,7 @@ public class InitManager {
     private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
-    public void InitialManager() throws Exception {
+    public void SetInitialManager() throws Exception {
         String InitialManager = Config.token().getManager();
         if (userService.findUser(InitialManager) == null) {
             log.info(Config.token().getNickName()+"不存在，开始进行初始化...");

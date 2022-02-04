@@ -16,8 +16,10 @@
 package com.eladmin.modules.system.repository;
 
 import com.eladmin.modules.system.domain.Dict;
+import com.eladmin.modules.system.domain.DictDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Set;
@@ -40,4 +42,13 @@ public interface DictRepository extends JpaRepository<Dict, String>, JpaSpecific
      * @return /
      */
     List<Dict> findByIdIn(Set<String> ids);
+
+    /**
+     * 根据字典名称查询
+     * @param name /
+     * @return /
+     */
+    @Query(value = "select d  from Dict d " +
+            " where  d.name = ?1 ")
+    List<Dict> findByName(String name);
 }
