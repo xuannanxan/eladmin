@@ -47,8 +47,9 @@ public class Dict extends BaseEntity implements Serializable {
     private String description;
 
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "dict")
-    @org.hibernate.annotations.ForeignKey(name = "none")
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "dict")
+//    @org.hibernate.annotations.ForeignKey(name = "none")
+    @Transient
     private List<DictDetail> dictDetails ;
 
 }

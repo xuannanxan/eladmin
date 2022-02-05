@@ -15,6 +15,7 @@
  */
 package com.eladmin.modules.system.service.impl;
 
+import com.eladmin.exception.BadRequestException;
 import com.eladmin.modules.system.repository.DictDetailRepository;
 import com.eladmin.modules.system.repository.DictRepository;
 import com.eladmin.modules.system.service.mapstruct.DictDetailMapper;
@@ -59,6 +60,9 @@ public class DictDetailServiceImpl implements DictDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(DictDetail resources) {
+        if(isRepeat(resources)){
+            throw new BadRequestException( "字典的值不能重复");
+        }
         dictDetailRepository.save(resources);
         // 清理缓存
         delCaches(resources);
@@ -70,6 +74,9 @@ public class DictDetailServiceImpl implements DictDetailService {
         DictDetail dictDetail = dictDetailRepository.findById(resources.getId()).orElseGet(DictDetail::new);
         ValidationUtil.isNull( dictDetail.getId(),"DictDetail","id",resources.getId());
         resources.setId(dictDetail.getId());
+        if(isRepeat(resources)){
+            throw new BadRequestException( "字典的值不能重复");
+        }
         dictDetailRepository.save(resources);
         // 清理缓存
         delCaches(resources);
@@ -82,8 +89,8 @@ public class DictDetailServiceImpl implements DictDetailService {
     }
 
     @Override
-    public Map<String,Object> getByDictNameWithPage(String dictName, Pageable pageable) {
-        Page<DictDetail> page = dictDetailRepository.findByDictNameWithPage(dictName,pageable);
+    public Map<String,Object> getByDictName(String dictName, Pageable pageable) {
+        Page<DictDetail> page = dictDetailRepository.findByDictName(dictName,pageable);
         return PageUtil.toPage(page.map(dictDetailMapper::toDto));
     }
 
@@ -92,6 +99,9 @@ public class DictDetailServiceImpl implements DictDetailService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
         DictDetail dictDetail = dictDetailRepository.findById(id).orElseGet(DictDetail::new);
+        if(dictDetail.getCreateBy().equals("System")){
+            throw new BadRequestException( "不能删除系统字典");
+        }
         // 清理缓存
         delCaches(dictDetail);
         dictDetailRepository.deleteById(id);
@@ -102,7 +112,25 @@ public class DictDetailServiceImpl implements DictDetailService {
         if(dictDetail.getDict() == null){
             return;
         }
-        Dict dict = dictRepository.findById(dictDetail.getDict().getId()).orElseGet(Dict::new);
+        Dict dict = dictRepository.findById(dictDetail.getDictId()).orElseGet(Dict::new);
         redisUtils.del(CacheKey.DICT_NAME + dict.getName());
+    }
+
+    public boolean isRepeat(DictDetail resources){
+        List<DictDetail> dictDetails= dictDetailRepository.findByDictId(resources.getDictId());
+        for(DictDetail dd:dictDetails){
+            if(dd.getLabel().equals(resources.getLabel())){
+                //新增
+                if(resources.getId() == null || resources.getId().equals("") ){
+                    return true;
+                }else {
+                    //如果不是修改
+                    if(!dd.getId().equals(resources.getId())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

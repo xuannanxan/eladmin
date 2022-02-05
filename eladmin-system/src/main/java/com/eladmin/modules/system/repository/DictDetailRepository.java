@@ -20,7 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 /**
@@ -44,7 +47,41 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
      * @return /
      */
     @Query(value = "select dd.*  from sys_dict_detail dd  join sys_dict d on d.id = dd.dict_id" +
-            " where  d.name = ?1 ",nativeQuery = true)
-    Page<DictDetail> findByDictNameWithPage(String name, Pageable pageable);
+            " where  d.name = ?1 "
+            ,countQuery = "SELECT count(*) FROM sys_dict_detail dd join sys_dict d on d.id = dd.dict_id"+
+            " WHERE d.name = ?1"
+            ,nativeQuery = true)
+    Page<DictDetail> findByDictName(String name, Pageable pageable);
 
+    /**
+     * 根据字典id查询
+     * @param dict_id /
+     * @return /
+     */
+    @Query(value = "select dd.*  from sys_dict_detail dd " +
+            " where dd.dict_id = ?1 ",nativeQuery = true)
+    List<DictDetail> findByDictId(String dict_id);
+
+    /**
+     * 根据字典ID查询-分页
+     * @param dict_id /
+     * @return /
+     */
+    @Query(value = "select dd.*  from sys_dict_detail dd " +
+            " where  dd.dict_id = ?1 "
+            ,countQuery = "SELECT count(*) from sys_dict_detail dd " +
+            " WHERE dd.dict_id = ?1"
+            ,nativeQuery = true)
+    Page<DictDetail> findByDictId(String dict_id, Pageable pageable);
+
+    /**
+     * 根据字典ID删除明晰
+     * @param dict_id /
+     * @return /
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "delete from sys_dict_detail  " +
+            " where dict_id = ?1 ",nativeQuery = true)
+    void deleteByDictId(String dict_id);
 }

@@ -58,9 +58,10 @@ public class InitDict {
             List<DictDto> result = dictService.findByName(map.get("dictName").toString());
             boolean isNew = true;
             if(result.size()>0){
-                map.put("dict",result.get(0));
-                if(result.get(0).getDictDetails().size()>0){
-                    for(DictDetailDto dd:result.get(0).getDictDetails()){
+                map.put("dict_id",result.get(0).getId());
+                List<DictDetailDto> details = dictDetailService.getByDictName(map.get("dictName").toString());
+                if(details.size()>0){
+                    for(DictDetailDto dd:details){
                         if(dd.getLabel().equals(map.get("label"))){
                             isNew = false;
                         }

@@ -16,7 +16,11 @@
 package com.eladmin.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.eladmin.exception.BadRequestException;
+import com.eladmin.modules.system.domain.DictDetail;
+import com.eladmin.modules.system.repository.DictDetailRepository;
 import com.eladmin.modules.system.repository.DictRepository;
+import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.mapstruct.DictMapper;
 import com.eladmin.utils.*;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +47,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "dict")
 public class DictServiceImpl implements DictService {
-
+    private final DictDetailRepository  dictDetailRepository;
     private final DictRepository dictRepository;
     private final DictMapper dictMapper;
     private final RedisUtils redisUtils;
@@ -59,7 +63,6 @@ public class DictServiceImpl implements DictService {
         List<Dict> list = dictRepository.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb));
         return dictMapper.toDto(list);
     }
-
 
     @Override
     public List<DictDto> findByName(String dictName) {
@@ -91,6 +94,10 @@ public class DictServiceImpl implements DictService {
         // 清理缓存
         List<Dict> dicts = dictRepository.findByIdIn(ids);
         for (Dict dict : dicts) {
+            if(dict.getCreateBy().equals("System")){
+                throw new BadRequestException( "不能删除系统字典");
+            }
+            dictDetailRepository.deleteByDictId(dict.getId());
             delCaches(dict);
         }
         dictRepository.deleteByIdIn(ids);
@@ -100,17 +107,18 @@ public class DictServiceImpl implements DictService {
     public void download(List<DictDto> dictDtos, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (DictDto dictDTO : dictDtos) {
-//            if(CollectionUtil.isNotEmpty(dictDTO.getDictDetails())){
-//                for (DictDetailDto dictDetail : dictDTO.getDictDetails()) {
-//                    Map<String,Object> map = new LinkedHashMap<>();
-//                    map.put("字典名称", dictDTO.getName());
-//                    map.put("字典描述", dictDTO.getDescription());
-//                    map.put("字典标签", dictDetail.getLabel());
-//                    map.put("字典值", dictDetail.getValue());
-//                    map.put("创建日期", dictDetail.getCreateTime());
-//                    list.add(map);
-//                }
-//            } else {
+            List<DictDetail> dictDetails = dictDetailRepository.findByDictName(dictDTO.getName());
+            if(dictDetails.size()>0){
+                for (DictDetail dictDetail : dictDetails) {
+                    Map<String,Object> map = new LinkedHashMap<>();
+                    map.put("字典名称", dictDTO.getName());
+                    map.put("字典描述", dictDTO.getDescription());
+                    map.put("字典标签", dictDetail.getLabel());
+                    map.put("字典值", dictDetail.getValue());
+                    map.put("创建日期", dictDetail.getCreateTime());
+                    list.add(map);
+                }
+            } else {
                 Map<String,Object> map = new LinkedHashMap<>();
                 map.put("字典名称", dictDTO.getName());
                 map.put("字典描述", dictDTO.getDescription());
@@ -118,7 +126,7 @@ public class DictServiceImpl implements DictService {
                 map.put("字典值", null);
                 map.put("创建日期", dictDTO.getCreateTime());
                 list.add(map);
-//            }
+            }
         }
         FileUtil.downloadExcel(list, response);
     }

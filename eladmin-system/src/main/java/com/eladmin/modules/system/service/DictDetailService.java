@@ -60,7 +60,7 @@ public interface DictDetailService {
      * @param pageable 分页参数
      * @return /
      */
-    Map<String,Object> getByDictNameWithPage(String dictName, Pageable pageable);
+    Map<String,Object> getByDictName(String dictName, Pageable pageable);
 
     /**
      * 根据字典名称获取字典详情

@@ -48,11 +48,11 @@ public interface DictRepository extends JpaRepository<Dict, String>, JpaSpecific
      * @param name /
      * @return /
      */
-  //  @Query(value = "select new Dict(d.id,d.name,d.description,(select dd from DictDetail dd where dd.dictId=d.id))  from Dict d " +
-    @Query(value = "SELECT d.* FROM `sys_dict` as d left join `sys_dict_detail` as dd on dd.dict_id = d.id"+
-            " where  d.name = ?1 " ,nativeQuery = true)
+
+//    @Query(value = "SELECT d.* FROM `sys_dict` as d left join `sys_dict_detail` as dd on dd.dict_id = d.id"+
+//            " where  d.name = ?1 " ,nativeQuery = true)
+    @Query(value = "select d.* from sys_dict d  " +
+        "where d.name = ?1", nativeQuery = true)
     List<Dict> findByName(String name);
 }
 
-//@Query(value = "select d.* from sys_dept d, sys_roles_depts r where " +
-//        "d.dept_id = r.dept_id and r.role_id = ?1", nativeQuery = true)
