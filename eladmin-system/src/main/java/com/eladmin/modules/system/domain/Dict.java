@@ -46,9 +46,6 @@ public class Dict extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "描述")
     private String description;
 
-
-//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "dict")
-//    @org.hibernate.annotations.ForeignKey(name = "none")
     @Transient
     private List<DictDetail> dictDetails ;
 

@@ -2,19 +2,18 @@ package com.eladmin.tools;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.io.FileUtils;
-
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanMap;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 对象的工具类
- * **/
+ * */
 public class ObjectTools {
     //map转java对象
     public static <T> T jsonToObject(String json, Class<T> cls) throws Exception {
@@ -25,8 +24,13 @@ public class ObjectTools {
         }
         return JSON.toJavaObject(jsonObject, cls);
     }
-    //java对象转map
-    public static Map<String, Object> objectToMap(Object obj) throws Exception {
+    /**
+     * java对象转map
+     */
+
+
+    @SneakyThrows
+    public static Map<String, Object> objectToMap(Object obj)  {
         if (obj == null) {
             return null;
         }
@@ -44,6 +48,18 @@ public class ObjectTools {
             map.put(key, value);
         }
         return map;
+    }
+
+    /**
+     *  map转java对象
+     * @param bean 泛型类
+     * @param <T>
+     * @return T
+     */
+    public static <T> T mapToBean(Map<String, Object> map, T bean) {
+        BeanMap beanMap =  new BeanMap(bean);
+        beanMap.putAll(map);
+        return bean;
     }
 
 }

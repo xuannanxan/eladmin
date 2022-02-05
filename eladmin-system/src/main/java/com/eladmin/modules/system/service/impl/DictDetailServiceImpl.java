@@ -26,7 +26,6 @@ import com.eladmin.modules.system.domain.DictDetail;
 import com.eladmin.modules.system.service.dto.DictDetailQueryCriteria;
 import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.dto.DictDetailDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

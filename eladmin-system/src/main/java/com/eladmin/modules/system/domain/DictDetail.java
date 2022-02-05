@@ -42,14 +42,12 @@ public class DictDetail extends BaseEntity implements Serializable {
     private String value;
 
     @ApiModelProperty(value = "排序")
-    private Integer dictSort = 999;
+    private Integer sort = 999;
 
     @Column(name = "dict_id")
     @ApiModelProperty(value = "字典ID")
     private String dictId;
-//    @ManyToOne
-//    @JoinColumn(columnDefinition = "dict_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))
-//    private Dict dict;
+
     @Transient
     private Dict dict;
 }
