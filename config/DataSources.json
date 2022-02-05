@@ -13,6 +13,7 @@
   "druidUsername": "admin",
   "druidPassword": "123456",
   "resetEnable": false,
+  "showSql": true,
   "slowSqlMillis": 1000,
 
   "#driverClassName驱动": "net.sf.log4jdbc.sql.jdbcapi.DriverSpy",
