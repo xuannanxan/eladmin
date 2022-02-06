@@ -53,26 +53,6 @@ public interface DictDetailRepository extends JpaRepository<DictDetail, String>,
             ,nativeQuery = true)
     Page<DictDetail> findByDictName(String name, Pageable pageable);
 
-    /**
-     * 根据字典id查询
-     * @param dict_id /
-     * @return /
-     */
-    @Query(value = "select dd.*  from sys_dict_detail dd " +
-            " where dd.dict_id = ?1 ",nativeQuery = true)
-    List<DictDetail> findByDictId(String dict_id);
-
-    /**
-     * 根据字典ID查询-分页
-     * @param dict_id /
-     * @return /
-     */
-    @Query(value = "select dd.*  from sys_dict_detail dd " +
-            " where  dd.dict_id = ?1 "
-            ,countQuery = "SELECT count(*) from sys_dict_detail dd " +
-            " WHERE dd.dict_id = ?1"
-            ,nativeQuery = true)
-    Page<DictDetail> findByDictId(String dict_id, Pageable pageable);
 
     /**
      * 根据字典ID删除明晰

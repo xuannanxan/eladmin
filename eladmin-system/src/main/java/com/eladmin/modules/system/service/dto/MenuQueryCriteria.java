@@ -33,9 +33,6 @@ public class MenuQueryCriteria {
     @Query(type = Query.Type.BETWEEN)
     private List<Timestamp> createTime;
 
-    @Query(type = Query.Type.IS_NULL, propName = "pid")
-    private Boolean pidIsNull;
-
     @Query
     private String pid;
 }

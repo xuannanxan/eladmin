@@ -64,7 +64,7 @@ public interface MenuRepository extends JpaRepository<Menu, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT m.* FROM sys_menu m, sys_roles_menus r WHERE " +
-            "m.id = r.menu_id AND r.role_id IN ?1 AND type != ?2 order by m.menu_sort asc",nativeQuery = true)
+            "m.id = r.menu_id AND r.role_id IN ?1 AND type != ?2 order by m.sort asc",nativeQuery = true)
     LinkedHashSet<Menu> findByRoleIdsAndTypeNot(Set<String> roleIds, int type);
 
     /**
@@ -73,7 +73,7 @@ public interface MenuRepository extends JpaRepository<Menu, String>, JpaSpecific
      * @return /
      */
     @Query(value = "SELECT m.* FROM sys_menu m WHERE " +
-            "type != ?1 order by m.menu_sort asc",nativeQuery = true)
+            "type != ?1 order by m.sort asc",nativeQuery = true)
     LinkedHashSet<Menu> findOfMangerByTypeNot(int type);
     /**
      * 获取节点数量

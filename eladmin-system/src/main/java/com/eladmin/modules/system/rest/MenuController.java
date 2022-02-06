@@ -90,6 +90,9 @@ public class MenuController {
     @ApiOperation("查询菜单")
     @PreAuthorize("@el.check('menu:list')")
     public ResponseEntity<Object> queryMenu(MenuQueryCriteria criteria) throws Exception {
+        if(criteria.getBlurry()==null && criteria.getCreateTime()==null && criteria.getPid()==null){
+            criteria.setPid("0");
+        }
         List<MenuDto> menuDtoList = menuService.queryAll(criteria, true);
         return new ResponseEntity<>(PageUtil.toPage(menuDtoList, menuDtoList.size()),HttpStatus.OK);
     }

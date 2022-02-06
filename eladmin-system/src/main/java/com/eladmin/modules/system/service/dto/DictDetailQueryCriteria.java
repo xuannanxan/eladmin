@@ -28,6 +28,18 @@ public class DictDetailQueryCriteria {
     @Query(type = Query.Type.INNER_LIKE)
     private String label;
 
-    @Query(propName = "name",joinName = "dict")
+    @Query
+    private String value;
+
+    @Query
+    private String dictId;
+
+    @Query(type = Query.Type.NOT_EQUAL, propName = "id")
+    private String isEdit;
+
+    @Query
+    private String id;
+
+    @Query(propName = "name")
     private String dictName;
 }

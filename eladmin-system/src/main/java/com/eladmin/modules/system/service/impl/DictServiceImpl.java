@@ -15,19 +15,15 @@
  */
 package com.eladmin.modules.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.eladmin.exception.BadRequestException;
 import com.eladmin.modules.system.domain.DictDetail;
 import com.eladmin.modules.system.repository.DictDetailRepository;
 import com.eladmin.modules.system.repository.DictRepository;
-import com.eladmin.modules.system.service.DictDetailService;
 import com.eladmin.modules.system.service.mapstruct.DictMapper;
 import com.eladmin.utils.*;
 import lombok.RequiredArgsConstructor;
 import com.eladmin.modules.system.domain.Dict;
-import com.eladmin.modules.system.service.dto.DictDetailDto;
 import com.eladmin.modules.system.service.dto.DictQueryCriteria;
-import com.eladmin.utils.*;
 import com.eladmin.modules.system.service.DictService;
 import com.eladmin.modules.system.service.dto.DictDto;
 import org.springframework.cache.annotation.CacheConfig;
@@ -73,6 +69,9 @@ public class DictServiceImpl implements DictService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Dict resources) {
+        if(isRepeat(resources)){
+            throw new BadRequestException( "字典名称不能重复");
+        }
         dictRepository.save(resources);
     }
 
@@ -85,6 +84,9 @@ public class DictServiceImpl implements DictService {
         ValidationUtil.isNull( dict.getId(),"Dict","id",resources.getId());
         dict.setName(resources.getName());
         dict.setDescription(resources.getDescription());
+        if(isRepeat(resources)){
+            throw new BadRequestException( "字典名称不能重复");
+        }
         dictRepository.save(dict);
     }
 
@@ -133,5 +135,18 @@ public class DictServiceImpl implements DictService {
 
     public void delCaches(Dict dict){
         redisUtils.del(CacheKey.DICT_NAME + dict.getName());
+    }
+
+    public boolean isRepeat(Dict resources){
+        DictQueryCriteria criteria = new DictQueryCriteria();
+        criteria.setName(resources.getName());
+        //如果是修改
+        if(resources.getId() != null) {
+            if (resources.getId().length() > 0) {
+                criteria.setIsEdit(resources.getId());
+            }
+        }
+        List<Dict> dict= dictRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
+        return dict.size() > 0;
     }
 }

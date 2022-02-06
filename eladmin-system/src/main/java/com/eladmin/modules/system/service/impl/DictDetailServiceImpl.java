@@ -116,20 +116,16 @@ public class DictDetailServiceImpl implements DictDetailService {
     }
 
     public boolean isRepeat(DictDetail resources){
-        List<DictDetail> dictDetails= dictDetailRepository.findByDictId(resources.getDictId());
-        for(DictDetail dd:dictDetails){
-            if(dd.getLabel().equals(resources.getLabel())){
-                //新增
-                if(resources.getId() == null || resources.getId().equals("") ){
-                    return true;
-                }else {
-                    //如果不是修改
-                    if(!dd.getId().equals(resources.getId())){
-                        return true;
-                    }
-                }
+        DictDetailQueryCriteria criteria = new DictDetailQueryCriteria();
+        criteria.setDictId(resources.getDictId());
+        criteria.setValue(resources.getValue());
+        //如果是修改
+        if(resources.getId() != null) {
+            if (resources.getId().length() > 0) {
+                criteria.setIsEdit(resources.getId());
             }
         }
-        return false;
+        List<DictDetail> dictDetails= dictDetailRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
+        return dictDetails.size() > 0;
     }
 }

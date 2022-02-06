@@ -63,23 +63,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDto> queryAll(MenuQueryCriteria criteria, Boolean isQuery) throws Exception {
-        Sort sort = Sort.by(Sort.Direction.ASC, "menuSort");
-        if(Boolean.TRUE.equals(isQuery)){
-            criteria.setPidIsNull(true);
-            List<Field> fields = QueryHelp.getAllFields(criteria.getClass(), new ArrayList<>());
-            for (Field field : fields) {
-                //设置对象的访问权限，保证对private的属性的访问
-                field.setAccessible(true);
-                Object val = field.get(criteria);
-                if("pidIsNull".equals(field.getName())){
-                    continue;
-                }
-                if (ObjectUtil.isNotNull(val)) {
-                    criteria.setPidIsNull(null);
-                    break;
-                }
-            }
-        }
+        Sort sort = Sort.by(Sort.Direction.ASC, "sort");
         return menuMapper.toDto(menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),sort));
     }
 
@@ -124,7 +108,7 @@ public class MenuServiceImpl implements MenuService {
                 throw new EntityExistException(Menu.class,"componentName",resources.getComponentName());
             }
         }
-        if(resources.getPid().equals(0L)){
+        if(resources.getPid().equals("0")){
             resources.setPid(null);
         }
         if(resources.getIFrame()){
@@ -161,7 +145,7 @@ public class MenuServiceImpl implements MenuService {
             throw new EntityExistException(Menu.class,"title",resources.getTitle());
         }
 
-        if(resources.getPid().equals(0L)){
+        if(resources.getPid().equals("0")){
             resources.setPid(null);
         }
 
@@ -181,7 +165,7 @@ public class MenuServiceImpl implements MenuService {
         menu.setIcon(resources.getIcon());
         menu.setIFrame(resources.getIFrame());
         menu.setPid(resources.getPid());
-        menu.setMenuSort(resources.getMenuSort());
+        menu.setSort(resources.getSort());
         menu.setCache(resources.getCache());
         menu.setHidden(resources.getHidden());
         menu.setComponentName(resources.getComponentName());
@@ -222,7 +206,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuDto> getMenus(String pid) {
         List<Menu> menus;
-        if(pid != null && !pid.equals(0L)){
+        if(pid != null && !pid.equals("0")){
             menus = menuRepository.findByPid(pid);
         } else {
             menus = menuRepository.findByPidIsNull();

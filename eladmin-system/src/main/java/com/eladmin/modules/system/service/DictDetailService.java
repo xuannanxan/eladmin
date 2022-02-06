@@ -68,4 +68,5 @@ public interface DictDetailService {
      * @return /
      */
     List<DictDetailDto> getByDictName(String name);
+
 }

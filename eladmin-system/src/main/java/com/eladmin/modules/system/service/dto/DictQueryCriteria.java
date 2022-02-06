@@ -27,4 +27,14 @@ public class DictQueryCriteria {
 
     @Query(blurry = "name,description")
     private String blurry;
+
+    @Query
+    private String name;
+
+    @Query(type = Query.Type.NOT_EQUAL, propName = "id")
+    private String isEdit;
+
+    @Query
+    private String id;
+
 }
