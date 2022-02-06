@@ -49,6 +49,7 @@ public class Log  implements Serializable {
     private String method;
 
     /** 参数 */
+    @Column(name="params",columnDefinition="TEXT")
     private String params;
 
     /** 日志类型 */
@@ -67,7 +68,8 @@ public class Log  implements Serializable {
     private Long time;
 
     /** 异常详细  */
-    private byte[] exceptionDetail;
+    @Column(name="exception_detail",columnDefinition="TEXT")
+    private String exceptionDetail;
 
     /** 创建日期 */
     @CreationTimestamp

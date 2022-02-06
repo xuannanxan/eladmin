@@ -40,17 +40,6 @@ import java.util.Set;
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class Menu extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "menu_id")
-//    @NotNull(groups = {Update.class})
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-//    @JSONField(serialize = false)
-//    @ManyToMany(mappedBy = "menus")
-//    @ApiModelProperty(value = "菜单角色")
-//    private Set<Role> roles;
     @Transient
     private List<Role> roles;
 
@@ -70,7 +59,7 @@ public class Menu extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "路由地址")
     private String path;
 
-    @ApiModelProperty(value = "菜单类型，目录、菜单、按钮")
+    @ApiModelProperty(value = "菜单类型，0目录、1菜单、2按钮")
     private Integer type;
 
     @ApiModelProperty(value = "权限标识")

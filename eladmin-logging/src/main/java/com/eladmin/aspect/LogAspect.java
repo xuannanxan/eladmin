@@ -83,7 +83,7 @@ public class LogAspect {
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         Log log = new Log("ERROR",System.currentTimeMillis() - currentTime.get());
         currentTime.remove();
-        log.setExceptionDetail(ThrowableUtil.getStackTrace(e).getBytes());
+        log.setExceptionDetail(ThrowableUtil.getStackTrace(e));
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
         logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request), (ProceedingJoinPoint)joinPoint, log);
     }

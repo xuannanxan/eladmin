@@ -108,8 +108,8 @@ public class MenuServiceImpl implements MenuService {
                 throw new EntityExistException(Menu.class,"componentName",resources.getComponentName());
             }
         }
-        if(resources.getPid().equals("0")){
-            resources.setPid(null);
+        if(resources.getPid()== null){
+            resources.setPid("0");
         }
         if(resources.getIFrame()){
             String http = "http://", https = "https://";
@@ -132,7 +132,9 @@ public class MenuServiceImpl implements MenuService {
         }
         Menu menu = menuRepository.findById(resources.getId()).orElseGet(Menu::new);
         ValidationUtil.isNull(menu.getId(),"Permission","id",resources.getId());
-
+        if(menu.getCreateBy().equals("System")){
+            throw new BadRequestException("不能修改系统菜单");
+        }
         if(resources.getIFrame()){
             String http = "http://", https = "https://";
             if (!(resources.getPath().toLowerCase().startsWith(http)||resources.getPath().toLowerCase().startsWith(https))) {
@@ -145,8 +147,8 @@ public class MenuServiceImpl implements MenuService {
             throw new EntityExistException(Menu.class,"title",resources.getTitle());
         }
 
-        if(resources.getPid().equals("0")){
-            resources.setPid(null);
+        if(resources.getPid()==null){
+            resources.setPid("0");
         }
 
         // 记录的父节点ID
@@ -195,6 +197,9 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Menu> menuSet) {
         for (Menu menu : menuSet) {
+            if(menu.getCreateBy().equals("System")){
+                throw new BadRequestException("不能删除系统菜单");
+            }
             // 清理缓存
             delCaches(menu.getId());
             roleService.untiedMenu(menu.getId());
