@@ -13,8 +13,11 @@
   "druidUsername": "admin",
   "druidPassword": "123456",
   "resetEnable": false,
-  "showSql": true,
   "slowSqlMillis": 1000,
+  "showSql": true,
+  "ddl": true,
+  "dialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
+
 
   "#driverClassName驱动": "net.sf.log4jdbc.sql.jdbcapi.DriverSpy",
   "#url 数据库链接字符串": "jdbc:log4jdbc:mysql://localhost:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false",
@@ -30,6 +33,9 @@
   "#druidUsername druid用户名": "admin",
   "#druidPassword druid密码": "123456",
   "#resetEnable 是否允许重置数据": false,
-  "#slowSqlMillis 慢sql的时长": 1000
+  "#slowSqlMillis 慢sql的时长": 1000,
+  "#showSql 显示sql语句": false,
+  "#ddl 开启ddl,建议项目初始化后设置为false": true,
+  "#dialect 设置hibernate方言": "org.hibernate.dialect.MySQL5InnoDBDialect"
 }
 

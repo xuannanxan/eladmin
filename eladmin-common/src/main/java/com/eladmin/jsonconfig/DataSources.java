@@ -25,6 +25,9 @@ public class DataSources {
     public static final String DEFAULT_DRUIDPASSWORD = "123456";
     public static final Boolean DEFAULT_RESETENABLE = false;
     public static final Integer DEFAULT_SLOWSQLMILLIS = 1000;
+    public static final Boolean DEFAULT_SHOWSQL = false;
+    public static final Boolean DEFAULT_DDL = true;
+    public static final String DEFAULT_DIALECT = "org.hibernate.dialect.MySQL5InnoDBDialect";
 
 
     public static DataSources defaultInstance() {
@@ -47,6 +50,9 @@ public class DataSources {
         this.druidPassword = DEFAULT_DRUIDPASSWORD;
         this.resetEnable = DEFAULT_RESETENABLE;
         this.slowSqlMillis = DEFAULT_SLOWSQLMILLIS;
+        this.showSql = DEFAULT_SHOWSQL;
+        this.ddl = DEFAULT_DDL;
+        this.dialect = DEFAULT_DIALECT;
 
     }
 
@@ -99,4 +105,12 @@ public class DataSources {
     @FieldDescribe("超时时间(以秒数为单位)")
     private Integer slowSqlMillis;
 
+    @FieldDescribe("控制台显示SQL语句")
+    private Boolean showSql;
+
+    @FieldDescribe("是否开启DDL，更新表结构")
+    private Boolean ddl;
+
+    @FieldDescribe("设置hibernate方言")
+    private String dialect;
 }
