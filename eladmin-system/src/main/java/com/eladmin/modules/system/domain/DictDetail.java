@@ -48,6 +48,5 @@ public class DictDetail extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "字典ID")
     private String dictId;
 
-    @Transient
-    private Dict dict;
+
 }

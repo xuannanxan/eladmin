@@ -46,7 +46,4 @@ public class Dict extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "描述")
     private String description;
 
-    @Transient
-    private List<DictDetail> dictDetails ;
-
 }

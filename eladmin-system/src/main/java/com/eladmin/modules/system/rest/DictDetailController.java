@@ -75,9 +75,7 @@ public class DictDetailController {
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
         }
-        if (resources.getDict() != null && resources.getDict().getId().length()>0) {
-            resources.setDictId(resources.getDict().getId());
-        }else{
+        if (resources.getDictId() == null ) {
             throw new BadRequestException( ENTITY_NAME +"字典详情没有归属的字典");
         }
         dictDetailService.create(resources);

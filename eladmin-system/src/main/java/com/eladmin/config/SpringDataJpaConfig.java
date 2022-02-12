@@ -1,6 +1,8 @@
 package com.eladmin.config;
 
 import com.eladmin.jsonconfig.Config;
+import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
+import org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
 
 /**
  * 注意：spring-data-jpa2.x版本需要spring版本为5.x
@@ -58,6 +61,12 @@ public class SpringDataJpaConfig {
         emfb.setDataSource(dataSource);
         // 注入jpa厂商适配器
         emfb.setJpaVendorAdapter(jpaVendorAdapter);
+        HashMap<String, Object> props = new HashMap<>(2);
+        //Hibernate隐式命名策略
+        props.put("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName());
+        props.put("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
+        emfb.setJpaPropertyMap(props);
+
         // 设置扫描基本包
         emfb.setPackagesToScan("com.eladmin");
         return emfb;
