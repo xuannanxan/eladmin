@@ -16,16 +16,12 @@ import java.io.Serializable;
 @Setter
 @Table(name="sys_roles_depts",indexes = {@Index(columnList = "role_id"),@Index(columnList = "dept_id")})
 public class RolesDepts extends BaseEntity implements Serializable {
-    @Transient
-    private Dept dept;
+
 
     @Column(name = "dept_id")
     @ApiModelProperty(value = "部门ID")
     private String deptId;
 
-
-    @Transient
-    private Role role;
 
     @Column(name = "role_id")
     @ApiModelProperty(value = "角色ID")

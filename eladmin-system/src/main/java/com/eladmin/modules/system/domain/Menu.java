@@ -40,8 +40,6 @@ import java.util.Set;
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class Menu extends BaseEntity implements Serializable {
 
-    @Transient
-    private List<Role> roles;
 
     @ApiModelProperty(value = "菜单标题")
     private String title;
@@ -84,6 +82,10 @@ public class Menu extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "外链菜单")
     private Boolean iFrame;
+
+    @Column(name = "level")
+    @ApiModelProperty(value = "权限级别，数值越大，需要的角色和会员的权限越大")
+    private Integer level = 3;
 
     @Override
     public boolean equals(Object o) {

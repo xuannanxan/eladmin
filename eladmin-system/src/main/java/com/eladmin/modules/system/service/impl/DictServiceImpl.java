@@ -69,9 +69,7 @@ public class DictServiceImpl implements DictService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Dict resources) {
-        if(isRepeat(resources)){
-            throw new BadRequestException( "字典名称不能重复");
-        }
+        checkResources(resources);
         dictRepository.save(resources);
     }
 
@@ -84,9 +82,7 @@ public class DictServiceImpl implements DictService {
         ValidationUtil.isNull( dict.getId(),"Dict","id",resources.getId());
         dict.setName(resources.getName());
         dict.setDescription(resources.getDescription());
-        if(isRepeat(resources)){
-            throw new BadRequestException( "字典名称不能重复");
-        }
+        checkResources(dict);
         dictRepository.save(dict);
     }
 
@@ -96,9 +92,7 @@ public class DictServiceImpl implements DictService {
         // 清理缓存
         List<Dict> dicts = dictRepository.findByIdIn(ids);
         for (Dict dict : dicts) {
-            if(dict.getCreateBy().equals("System")){
-                throw new BadRequestException( "不能删除系统字典");
-            }
+            checkResources(dict);
             dictDetailRepository.deleteByDictId(dict.getId());
             delCaches(dict);
         }
@@ -137,16 +131,21 @@ public class DictServiceImpl implements DictService {
         redisUtils.del(CacheKey.DICT_NAME + dict.getName());
     }
 
-    public boolean isRepeat(Dict resources){
+    public void checkResources(Dict resources){
         DictQueryCriteria criteria = new DictQueryCriteria();
         criteria.setName(resources.getName());
         //如果是修改
         if(resources.getId() != null) {
+            if(resources.getCreateBy().equals("System")){
+                throw new BadRequestException( "不能修改或删除系统字典");
+            }
             if (resources.getId().length() > 0) {
                 criteria.setIsEdit(resources.getId());
             }
         }
         List<Dict> dict= dictRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
-        return dict.size() > 0;
+        if(dict.size() > 0){
+            throw new BadRequestException( "字典名称不能重复");
+        }
     }
 }

@@ -37,20 +37,6 @@ import java.util.Set;
 @Setter
 @Table(name="sys_dept")
 public class Dept extends BaseEntity implements Serializable {
-//
-//    @Id
-//    @Column(name = "dept_id")
-//    @NotNull(groups = Update.class)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-//    @JSONField(serialize = false)
-//    @ManyToMany(mappedBy = "depts")
-//    @ApiModelProperty(value = "角色")
-//    private Set<Role> roles;
-    @Transient
-    private List<Role> roles;
 
     @ApiModelProperty(value = "排序")
     private Integer deptSort;

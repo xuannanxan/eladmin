@@ -41,40 +41,6 @@ import java.util.Set;
 @Table(name = "sys_role")
 public class Role extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "role_id")
-//    @NotNull(groups = {Update.class})
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    private Long id;
-
-
-//    @JSONField(serialize = false)
-//    @ManyToMany(mappedBy = "roles")
-//    @ApiModelProperty(value = "用户", hidden = true)
-//    private Set<User> users;
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "sys_roles_menus",
-//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},
-//            inverseJoinColumns = {@JoinColumn(name = "menu_id",referencedColumnName = "id")})
-//    @ApiModelProperty(value = "菜单", hidden = true)
-//    private Set<Menu> menus;
-    @Transient
-    private List<User> users;
-
-    @Transient
-    private List<Menu> menus;
-
-    @Transient
-    private List<Dept> depts;
-
-//    @ManyToMany
-//    @JoinTable(name = "sys_roles_depts",
-//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
-//            inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))})
-//    @ApiModelProperty(value = "部门", hidden = true)
-//    private Set<Dept> depts;
 
     @NotBlank
     @ApiModelProperty(value = "名称", hidden = true)
@@ -84,7 +50,7 @@ public class Role extends BaseEntity implements Serializable {
     private String dataScope = DataScopeEnum.THIS_LEVEL.getValue();
 
     @Column(name = "level")
-    @ApiModelProperty(value = "级别，数值越小，级别越大")
+    @ApiModelProperty(value = "级别，数值越大，权限越大，级别大于操作级别才能关联操作")
     private Integer level = 3;
 
     @ApiModelProperty(value = "描述")

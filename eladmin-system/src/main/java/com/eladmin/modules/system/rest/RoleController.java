@@ -118,7 +118,7 @@ public class RoleController {
     @ApiOperation("修改角色菜单")
     @PutMapping(value = "/menu")
     @PreAuthorize("@el.check('roles:edit')")
-    public ResponseEntity<Object> updateRoleMenu(@RequestBody Role resources){
+    public ResponseEntity<Object> updateRoleMenu(@RequestBody Role resources,Set<String> menuIds){
         RoleDto role = roleService.findById(resources.getId());
         getLevels(role.getLevel());
         roleService.updateMenu(resources,role);

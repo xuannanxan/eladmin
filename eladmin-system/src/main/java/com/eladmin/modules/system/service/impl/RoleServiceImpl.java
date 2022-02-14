@@ -153,17 +153,6 @@ public class RoleServiceImpl implements RoleService {
         return roleSmallMapper.toDto(new ArrayList<>(roleRepository.findByUserId(id)));
     }
 
-    @Override
-    public Integer findByRoles(List<Role> roles) {
-        if (roles.size() == 0) {
-            return Integer.MAX_VALUE;
-        }
-        Set<RoleDto> roleDtos = new HashSet<>();
-        for (Role role : roles) {
-            roleDtos.add(findById(role.getId()));
-        }
-        return Collections.min(roleDtos.stream().map(RoleDto::getLevel).collect(Collectors.toList()));
-    }
 
     @Override
     @Cacheable(key = "'auth:' + #p0.id")

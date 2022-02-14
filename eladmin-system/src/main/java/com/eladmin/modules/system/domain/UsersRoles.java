@@ -17,16 +17,12 @@ import javax.persistence.*;
 @Setter
 @Table(name="sys_users_roles",indexes = {@Index(columnList = "role_id"),@Index(columnList = "user_id")})
 public class UsersRoles  extends BaseEntity implements Serializable{
-    @Transient
-    private User user;
+
 
     @Column(name = "user_id")
     @ApiModelProperty(value = "用户ID")
     private String userId;
 
-
-    @Transient
-    private Role role;
 
     @Column(name = "role_id")
     @ApiModelProperty(value = "角色ID")

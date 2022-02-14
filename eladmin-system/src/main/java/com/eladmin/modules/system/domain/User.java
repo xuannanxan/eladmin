@@ -39,34 +39,6 @@ import java.util.Set;
 @Table(name="sys_user",indexes = {@Index(columnList = "dept_id")})
 public class User extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "user_id")
-//    @NotNull(groups = Update.class)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    private Long id;
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @ApiModelProperty(value = "用户角色")
-//    @JoinTable(name = "sys_users_roles",
-//            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
-//            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))})
-//    private Set<Role> roles;
-//
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @ApiModelProperty(value = "用户岗位")
-//    @JoinTable(name = "sys_users_jobs",
-//            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
-//            inverseJoinColumns = {@JoinColumn(name = "job_id",referencedColumnName = "id")})
-//    private Set<Job> jobs;
-    @Transient
-    private List<Job> jobs;
-
-    @Transient
-    private List<Role> roles;
-
-    @Transient
-    private Dept dept;
 
     @Column(name = "dept_id")
     @ApiModelProperty(value = "用户部门")
@@ -113,6 +85,10 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "pwd_reset_time")
     @ApiModelProperty(value = "最后修改密码的时间", hidden = true)
     private Date pwdResetTime;
+
+    @Column(name = "level")
+    @ApiModelProperty(value = "权限级别，数值越大，权限越大，用户级别大于角色级别才能授权")
+    private Integer level = 3;
 
     @Override
     public boolean equals(Object o) {

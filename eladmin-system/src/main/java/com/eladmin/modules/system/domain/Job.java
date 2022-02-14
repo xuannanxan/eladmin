@@ -36,16 +36,6 @@ import java.util.Objects;
 @Table(name="sys_job")
 public class Job extends BaseEntity implements Serializable {
 
-//    @Id
-//    @Column(name = "job_id")
-//    @NotNull(groups = Update.class)
-//    @ApiModelProperty(value = "ID", hidden = true)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
-    @Transient
-    private List<User> users;
-
     @NotBlank
     @ApiModelProperty(value = "岗位名称")
     private String name;

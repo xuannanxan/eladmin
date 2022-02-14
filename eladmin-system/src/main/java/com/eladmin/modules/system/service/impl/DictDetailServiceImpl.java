@@ -59,9 +59,7 @@ public class DictDetailServiceImpl implements DictDetailService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(DictDetail resources) {
-        if(isRepeat(resources)){
-            throw new BadRequestException( "字典的值不能重复");
-        }
+        checkResources(resources);
         dictDetailRepository.save(resources);
         // 清理缓存
         delCaches(resources);
@@ -73,9 +71,7 @@ public class DictDetailServiceImpl implements DictDetailService {
         DictDetail dictDetail = dictDetailRepository.findById(resources.getId()).orElseGet(DictDetail::new);
         ValidationUtil.isNull( dictDetail.getId(),"DictDetail","id",resources.getId());
         resources.setId(dictDetail.getId());
-        if(isRepeat(resources)){
-            throw new BadRequestException( "字典的值不能重复");
-        }
+        checkResources(resources);
         dictDetailRepository.save(resources);
         // 清理缓存
         delCaches(resources);
@@ -112,17 +108,22 @@ public class DictDetailServiceImpl implements DictDetailService {
         redisUtils.del(CacheKey.DICT_NAME + dict.getName());
     }
 
-    public boolean isRepeat(DictDetail resources){
+    public void checkResources(DictDetail resources){
         DictDetailQueryCriteria criteria = new DictDetailQueryCriteria();
         criteria.setDictId(resources.getDictId());
         criteria.setValue(resources.getValue());
-        //如果是修改
+        //如果是修改或删除
         if(resources.getId() != null) {
+            if(resources.getCreateBy().equals("System")){
+                throw new BadRequestException( "不能修改或删除系统字典");
+            }
             if (resources.getId().length() > 0) {
                 criteria.setIsEdit(resources.getId());
             }
         }
         List<DictDetail> dictDetails= dictDetailRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
-        return dictDetails.size() > 0;
+        if(dictDetails.size() > 0){
+            throw new BadRequestException( "字典的值不能重复");
+        }
     }
 }
