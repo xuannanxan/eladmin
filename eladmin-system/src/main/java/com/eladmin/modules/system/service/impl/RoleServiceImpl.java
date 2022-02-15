@@ -19,6 +19,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.eladmin.modules.security.service.UserCacheClean;
 import com.eladmin.modules.system.domain.RolesMenus;
 import com.eladmin.modules.system.domain.User;
+import com.eladmin.modules.system.repository.MenuRepository;
 import com.eladmin.modules.system.repository.RoleRepository;
 import com.eladmin.modules.system.repository.RolesMenusRepository;
 import com.eladmin.modules.system.repository.UserRepository;
@@ -62,6 +63,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final RolesMenusRepository rolesMenusRepository;
+    private final MenuRepository menuRepository;
     private final RoleMapper roleMapper;
     private final RoleSmallMapper roleSmallMapper;
     private final RedisUtils redisUtils;
@@ -169,9 +171,9 @@ public class RoleServiceImpl implements RoleService {
             return permissions.stream().map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
+        Set<Menu> menus = menuRepository.findByUserId(user.getId());
         Set<Role> roles = roleRepository.findByUserId(user.getId());
-        permissions = roles.stream().flatMap(role -> role.getMenus().stream())
-                .filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
+        permissions = menus.stream().filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
                 .map(Menu::getPermission).collect(Collectors.toSet());
         return permissions.stream().map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

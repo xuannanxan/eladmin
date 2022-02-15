@@ -90,4 +90,15 @@ public interface MenuRepository extends JpaRepository<Menu, String>, JpaSpecific
     @Modifying
     @Query(value = " update sys_menu set sub_count = ?1 where id = ?2 ",nativeQuery = true)
     void updateSubCntById(int count, String menuId);
+
+
+    /**
+     * 根据userId查询菜单
+     * @param userId /
+     * @return /
+     */
+    @Query(value = "SELECT m.* FROM sys_menu m, sys_roles_menus r,sys_users_roles as ur WHERE " +
+            "m.id = r.menu_id AND ur.role_id = r.role_id AND ur.user_id = ?1",nativeQuery = true)
+    LinkedHashSet<Menu> findByUserId(String userId);
+
 }

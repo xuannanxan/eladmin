@@ -72,12 +72,12 @@ public interface RoleService {
      */
     List<RoleSmallDto> findByUsersId(String id);
 
-    /**
-     * 根据角色查询角色级别
-     * @param roles /
-     * @return /
-     */
-    Integer findByRoles(List<Role> roles);
+//    /**
+//     * 根据角色查询角色级别
+//     * @param roles /
+//     * @return /
+//     */
+//    Integer findByRoles(List<Role> roles);
 
     /**
      * 修改绑定的菜单
