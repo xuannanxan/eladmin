@@ -121,7 +121,7 @@ public class RoleController {
     public ResponseEntity<Object> updateRoleMenu(@RequestBody Role resources,Set<String> menuIds){
         RoleDto role = roleService.findById(resources.getId());
         getLevels(role.getLevel());
-        roleService.updateMenu(resources,role);
+        roleService.updateMenu(resources,menuIds);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

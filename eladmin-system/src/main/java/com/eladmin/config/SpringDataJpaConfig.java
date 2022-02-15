@@ -65,6 +65,12 @@ public class SpringDataJpaConfig {
         //Hibernate隐式命名策略
         props.put("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName());
         props.put("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
+        //批量插入和更新
+        props.put("hibernate.jdbc.batch_size", "500");
+        props.put("hibernate.jdbc.batch_versioned_data", "true");
+        props.put("hibernate.order_inserts", "true");
+        props.put("hibernate.order_updates", "true");
+
         emfb.setJpaPropertyMap(props);
 
         // 设置扫描基本包

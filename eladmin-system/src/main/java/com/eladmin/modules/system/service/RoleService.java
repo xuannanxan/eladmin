@@ -15,6 +15,7 @@
  */
 package com.eladmin.modules.system.service;
 
+import com.eladmin.modules.system.domain.Menu;
 import com.eladmin.modules.system.service.dto.RoleDto;
 import com.eladmin.modules.system.service.dto.RoleQueryCriteria;
 import com.eladmin.modules.system.service.dto.RoleSmallDto;
@@ -81,9 +82,9 @@ public interface RoleService {
     /**
      * 修改绑定的菜单
      * @param resources /
-     * @param roleDTO /
+     * @param menus /
      */
-    void updateMenu(Role resources, RoleDto roleDTO);
+    void updateMenu(Role resources, Set<String> menus);
 
     /**
      * 解绑菜单

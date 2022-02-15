@@ -17,8 +17,10 @@ package com.eladmin.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.eladmin.modules.security.service.UserCacheClean;
+import com.eladmin.modules.system.domain.RolesMenus;
 import com.eladmin.modules.system.domain.User;
 import com.eladmin.modules.system.repository.RoleRepository;
+import com.eladmin.modules.system.repository.RolesMenusRepository;
 import com.eladmin.modules.system.repository.UserRepository;
 import com.eladmin.modules.system.service.mapstruct.RoleMapper;
 import com.eladmin.modules.system.service.mapstruct.RoleSmallMapper;
@@ -59,6 +61,7 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+    private final RolesMenusRepository rolesMenusRepository;
     private final RoleMapper roleMapper;
     private final RoleSmallMapper roleSmallMapper;
     private final RedisUtils redisUtils;
@@ -122,13 +125,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void updateMenu(Role resources, RoleDto roleDTO) {
-        Role role = roleMapper.toEntity(roleDTO);
-        List<User> users = userRepository.findByRoleId(role.getId());
+    public void updateMenu(Role resources, Set<String> menus) {
+        List<User> users = userRepository.findByRoleId(resources.getId());
+        List<RolesMenus>  rolesMenus = new ArrayList<>();
         // 更新菜单
-        role.setMenus(resources.getMenus());
+//        for (Menu menu:menus){
+//
+//        }
         delCaches(resources.getId(), users);
-        roleRepository.save(role);
+        rolesMenusRepository.saveAll(rolesMenus);
     }
 
     @Override
