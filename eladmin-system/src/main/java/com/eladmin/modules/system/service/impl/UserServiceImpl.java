@@ -115,11 +115,11 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistException(User.class, "phone", resources.getPhone());
         }
         // 如果用户的角色改变
-        if (!resources.getRoles().equals(user.getRoles())) {
-            redisUtils.del(CacheKey.DATA_USER + resources.getId());
-            redisUtils.del(CacheKey.MENU_USER + resources.getId());
-            redisUtils.del(CacheKey.ROLE_AUTH + resources.getId());
-        }
+//        if (!resources.getRoles().equals(user.getRoles())) {
+//            redisUtils.del(CacheKey.DATA_USER + resources.getId());
+//            redisUtils.del(CacheKey.MENU_USER + resources.getId());
+//            redisUtils.del(CacheKey.ROLE_AUTH + resources.getId());
+//        }
         // 如果用户被禁用，则清除用户登录信息
         if(!resources.getEnabled()){
             onlineUserService.kickOutForUsername(resources.getUsername());
@@ -127,9 +127,9 @@ public class UserServiceImpl implements UserService {
         user.setUsername(resources.getUsername());
         user.setEmail(resources.getEmail());
         user.setEnabled(resources.getEnabled());
-        user.setRoles(resources.getRoles());
-        user.setDept(resources.getDept());
-        user.setJobs(resources.getJobs());
+//        user.setRoles(resources.getRoles());
+//        user.setDept(resources.getDept());
+//        user.setJobs(resources.getJobs());
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
         user.setGender(resources.getGender());

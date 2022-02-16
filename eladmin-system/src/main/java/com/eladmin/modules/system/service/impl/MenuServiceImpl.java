@@ -100,6 +100,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Menu resources) {
+        checkRepository(resources);
         if(menuRepository.findByTitle(resources.getTitle()) != null){
             throw new EntityExistException(Menu.class,"title",resources.getTitle());
         }
@@ -111,12 +112,6 @@ public class MenuServiceImpl implements MenuService {
         if(resources.getPid()== null){
             resources.setPid("0");
         }
-        if(resources.getIFrame()){
-            String http = "http://", https = "https://";
-            if (!(resources.getPath().toLowerCase().startsWith(http)||resources.getPath().toLowerCase().startsWith(https))) {
-                throw new BadRequestException("外链必须以http://或者https://开头");
-            }
-        }
         menuRepository.save(resources);
         // 计算子节点数目
         resources.setSubCount(0);
@@ -127,20 +122,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Menu resources) {
-        if(resources.getId().equals(resources.getPid())) {
-            throw new BadRequestException("上级不能为自己");
-        }
+        checkRepository(resources);
         Menu menu = menuRepository.findById(resources.getId()).orElseGet(Menu::new);
         ValidationUtil.isNull(menu.getId(),"Permission","id",resources.getId());
-        if(menu.getCreateBy().equals("System")){
-            throw new BadRequestException("不能修改系统菜单");
-        }
-        if(resources.getIFrame()){
-            String http = "http://", https = "https://";
-            if (!(resources.getPath().toLowerCase().startsWith(http)||resources.getPath().toLowerCase().startsWith(https))) {
-                throw new BadRequestException("外链必须以http://或者https://开头");
-            }
-        }
         Menu menu1 = menuRepository.findByTitle(resources.getTitle());
 
         if(menu1 != null && !menu1.getId().equals(menu.getId())){
@@ -197,9 +181,8 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Menu> menuSet) {
         for (Menu menu : menuSet) {
-            if(menu.getCreateBy().equals("System")){
-                throw new BadRequestException("不能删除系统菜单");
-            }
+            checkRepository(menu);
+
             // 清理缓存
             delCaches(menu.getId());
             roleService.untiedMenu(menu.getId());
@@ -350,5 +333,21 @@ public class MenuServiceImpl implements MenuService {
             add(id);
         }});
         redisUtils.delByKeys(CacheKey.ROLE_ID, roles.stream().map(Role::getId).collect(Collectors.toSet()));
+    }
+
+    public void checkRepository(Menu repository){
+        if(repository.getCreateBy().equals("System")){
+            throw new BadRequestException("不能修改或删除系统菜单");
+        }
+        if(repository.getIFrame()){
+            String http = "http://", https = "https://";
+            if (!(repository.getPath().toLowerCase().startsWith(http)||repository.getPath().toLowerCase().startsWith(https))) {
+                throw new BadRequestException("外链必须以http://或者https://开头");
+            }
+        }
+        if(repository.getId().equals(repository.getPid())) {
+            throw new BadRequestException("上级不能为自己");
+        }
+
     }
 }

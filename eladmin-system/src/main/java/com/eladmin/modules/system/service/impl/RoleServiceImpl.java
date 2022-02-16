@@ -173,8 +173,8 @@ public class RoleServiceImpl implements RoleService {
         }
         Set<Menu> menus = menuRepository.findByUserId(user.getId());
         Set<Role> roles = roleRepository.findByUserId(user.getId());
-        permissions = menus.stream().filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
-                .map(Menu::getPermission).collect(Collectors.toSet());
+        permissions = menus.stream().map(Menu::getPermission)
+                .filter(StringUtils::isNotBlank).collect(Collectors.toSet());
         return permissions.stream().map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

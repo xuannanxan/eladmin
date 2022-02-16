@@ -107,4 +107,13 @@ public class User extends BaseEntity implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), username);
     }
+
+//    @Transient
+//    private Dept dept;
+//
+//    @Transient
+//    private Set<Role>  roles;
+//
+//    @Transient
+//    private Set<Job>  jobs;
 }
